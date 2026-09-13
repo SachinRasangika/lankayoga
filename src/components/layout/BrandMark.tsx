@@ -1,7 +1,8 @@
 import React from 'react';
 import { cn } from '../../utils/cn';
+import { asset } from '../../utils/asset';
 
-const LOGO_URL = "/5b0ddfcc-5015-4d2e-9e1a-35d7993d4cef_removalai_preview.png";
+const LOGO_URL = asset("/5b0ddfcc-5015-4d2e-9e1a-35d7993d4cef_removalai_preview.png");
 
 
 interface BrandMarkProps {

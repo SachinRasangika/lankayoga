@@ -1,4 +1,6 @@
-export const media = {
+import { asset } from '../utils/asset';
+
+const mediaFiles = {
   heroShala: "/b946c85a-4d8f-485e-a65e-18cfcb95288a.jpg",
   therapyRoom: "/92417d66-7bfd-4fb5-9612-7abb6b0b6f17.jpg",
   ecoCabin: "/90be5c05-59ad-4cd7-8a28-6ddcd1ea9464.jpg",
@@ -51,7 +53,11 @@ export const media = {
   footBath: "/7c7e46a9-424d-4323-ab8a-f1d36bc9635f.jpg",
   readingNook: "/6077c2e1-6252-467f-b50c-b1a3cab417c4.jpg",
   duskChant: "/cc7dd4a4-5322-471b-a015-976308afffc9.jpg"
-};
+} as const;
+
+export const media: { [K in keyof typeof mediaFiles]: string } = Object.fromEntries(
+  Object.entries(mediaFiles).map(([key, path]) => [key, asset(path)]),
+) as { [K in keyof typeof mediaFiles]: string };
 
 export interface TourScene {
   id: string;
