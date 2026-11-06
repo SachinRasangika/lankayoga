@@ -38,6 +38,7 @@ export const therapies: Therapy[] = [
   id: 'abhyanga',
   name: 'Abhyanga',
   duration: '60 min',
+  bookingWindow: 'Mornings, 08:00–11:00. Ask the day before.',
   doshas: ['vata', 'kapha'],
   description: 'Warm oil, four hands, one rhythm. The foundation of most protocols.'
 },
@@ -45,6 +46,7 @@ export const therapies: Therapy[] = [
   id: 'shirodhara',
   name: 'Shirodhara',
   duration: '45 min',
+  bookingWindow: 'Mid-morning, 09:00–12:00. Reserve two days ahead.',
   doshas: ['vata', 'pitta'],
   description: 'A thread of oil poured across the forehead. For a mind that will not stop.'
 },
@@ -52,6 +54,7 @@ export const therapies: Therapy[] = [
   id: 'pizhichil',
   name: 'Pizhichil',
   duration: '75 min',
+  bookingWindow: 'Late morning, 10:00–13:00. Reserve three days ahead.',
   doshas: ['vata', 'pitta'],
   description: 'Warm oil squeezed from cloth, head to foot. For joints and nerves.'
 },
@@ -59,6 +62,7 @@ export const therapies: Therapy[] = [
   id: 'udvartana',
   name: 'Udvartana',
   duration: '60 min',
+  bookingWindow: 'Mornings, 08:00–11:00. Ask the day before.',
   doshas: ['kapha'],
   description: 'Herbal powder instead of oil, worked upward. Wakes a heavy body.'
 },
@@ -66,6 +70,7 @@ export const therapies: Therapy[] = [
   id: 'nasya',
   name: 'Nasya',
   duration: '30 min',
+  bookingWindow: 'Just after dawn, 07:30–09:00. Ask the evening before.',
   doshas: ['kapha', 'vata'],
   description: 'Medicated oil through the nose after steam. Clears the head.'
 },
@@ -73,6 +78,7 @@ export const therapies: Therapy[] = [
   id: 'takradhara',
   name: 'Takradhara',
   duration: '45 min',
+  bookingWindow: 'Afternoons, 15:00–17:00. Reserve two days ahead.',
   doshas: ['pitta'],
   description: 'Cool medicated buttermilk, poured slowly. Draws heat down.'
 }];

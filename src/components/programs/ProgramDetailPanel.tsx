@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { CheckIcon, XIcon } from 'lucide-react';
 import { Program } from '../../types';
@@ -15,6 +16,7 @@ interface ProgramDetailPanelProps {
 const ease = [0.23, 1, 0.32, 1] as const;
 
 export function ProgramDetailPanel({ program, onClose }: ProgramDetailPanelProps) {
+  const navigate = useNavigate();
   useEffect(() => {
     function handleKey(event: KeyboardEvent) {
       if (event.key === 'Escape') onClose();
@@ -128,10 +130,25 @@ export function ProgramDetailPanel({ program, onClose }: ProgramDetailPanelProps
                 <p className="text-xs text-muted">{program.spotsLeft} of {program.capacity} places remaining</p>
               </div>
               <div className="flex gap-2">
-                <Button variant="secondary" size="sm" onClick={onClose}>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => {
+                    onClose();
+                    navigate(`/contact?topic=${encodeURIComponent(`${program.title} (${formatDateRange(program.startDate, program.endDate)})`)}`);
+                  }}>
+                  
                   Ask a question
                 </Button>
-                <Button size="sm">Reserve a place</Button>
+                <Button
+                  size="sm"
+                  onClick={() => {
+                    onClose();
+                    navigate(`/book?program=${program.id}`);
+                  }}>
+                  
+                  Reserve a place
+                </Button>
               </div>
             </div>
           </motion.aside>

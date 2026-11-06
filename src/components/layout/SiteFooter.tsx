@@ -3,23 +3,38 @@ import { Link } from 'react-router-dom';
 import { CheckIcon, LeafIcon } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { BrandMark } from './BrandMark';
+import { contact } from '../../data/contact';
+import { sendInquiry } from '../../utils/sendInquiry';
 
 const links = [
 { to: '/teacher-training', label: 'Teacher Training' },
 { to: '/ayurveda', label: 'Ayurveda' },
 { to: '/retreats', label: 'Retreats' },
 { to: '/campus', label: 'Campus & Hire' },
+{ to: '/book', label: 'Book a stay' },
+{ to: '/contact', label: 'Contact' },
 { to: '/journal', label: 'Journal' }];
 
 
 export function SiteFooter() {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const [subscribeError, setSubscribeError] = useState('');
 
-  function handleSubscribe(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubscribe(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!email.trim()) return;
-    setSubscribed(true);
+    if (!email.includes('@')) return;
+    setSubscribeError('');
+    try {
+      await sendInquiry({
+        subject: 'Newsletter signup',
+        replyTo: email.trim(),
+        fields: { Email: email.trim() }
+      });
+      setSubscribed(true);
+    } catch (error) {
+      setSubscribeError(error instanceof Error ? error.message : 'Could not save that address.');
+    }
   }
 
   return (
@@ -31,8 +46,11 @@ export function SiteFooter() {
             <p className="max-w-sm text-sm leading-relaxed text-muted">
               A lakeside eco-campus near Kurunegala, Sri Lanka.
             </p>
-            <a href="mailto:stay@lankayoga.lk" className="text-sm text-ink underline underline-offset-4">
-              stay@lankayoga.lk
+            <a href={`mailto:${contact.email}`} className="text-sm text-ink underline underline-offset-4">
+              {contact.email}
+            </a>
+            <a href={`tel:${contact.phoneTel}`} className="text-sm text-ink underline underline-offset-4">
+              {contact.phoneDisplay}
             </a>
           </div>
 
@@ -41,7 +59,7 @@ export function SiteFooter() {
             {subscribed ?
             <p className="flex items-center gap-2 text-sm text-sage-700 dark:text-sage-200">
                 <CheckIcon className="h-4 w-4 shrink-0" />
-                Thank you — check your inbox.
+                Thank you. We'll be in touch.
               </p> :
 
             <form onSubmit={handleSubscribe} className="flex max-w-md flex-col gap-2.5 sm:flex-row">
@@ -62,6 +80,9 @@ export function SiteFooter() {
                 </Button>
               </form>
             }
+            {subscribeError ?
+            <p className="text-sm text-terracotta-600 dark:text-terracotta-300" role="alert">{subscribeError}</p> :
+            null}
           </div>
         </div>
 

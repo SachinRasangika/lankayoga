@@ -12,10 +12,11 @@ const navItems = [
 { to: '/ayurveda', label: 'Ayurveda' },
 { to: '/retreats', label: 'Retreats' },
 { to: '/campus', label: 'Campus & Hire' },
-{ to: '/journal', label: 'Journal' }];
+{ to: '/journal', label: 'Journal' },
+{ to: '/contact', label: 'Contact' }];
 
 
-const immersiveRoutes = ['/', '/teacher-training', '/ayurveda', '/campus', '/retreats', '/journal'];
+const immersiveRoutes = ['/', '/teacher-training', '/ayurveda', '/campus', '/retreats', '/journal', '/book', '/contact'];
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -77,7 +78,7 @@ export function SiteHeader() {
         <div className="ml-auto flex items-center gap-2 lg:ml-3">
           <ThemeToggle onImage={overImage} />
           <ButtonLink
-            to="/retreats"
+            to="/book"
             size="sm"
             variant={overImage ? 'onImage' : 'primary'}
             className="hidden sm:inline-flex">
@@ -124,6 +125,14 @@ export function SiteHeader() {
                   </NavLink>
                 </li>
             )}
+              <li>
+                <NavLink
+                  to="/book"
+                  className="block rounded-xl px-4 py-3 text-sm font-medium text-ink">
+                  
+                  Book a stay
+                </NavLink>
+              </li>
             </ul>
           </motion.div> :
         null}

@@ -3,6 +3,7 @@ import { AlertCircleIcon, CheckCircle2Icon, Loader2Icon } from 'lucide-react';
 import { venueSpaces } from '../../data/venues';
 import { Button } from '../ui/Button';
 import { cn } from '../../utils/cn';
+import { sendInquiry } from '../../utils/sendInquiry';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 
@@ -34,19 +35,42 @@ const fieldClass =
 export function VenueInquiryForm() {
   const [form, setForm] = useState<FormState>(emptyForm);
   const [status, setStatus] = useState<Status>('idle');
+  const [error, setError] = useState('');
 
   function set<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((current) => ({ ...current, [key]: value }));
   }
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!form.name.trim() || !form.email.includes('@') || !form.startDate) {
+      setError('Please add your name, a valid email and a preferred start date.');
       setStatus('error');
       return;
     }
+    const space = venueSpaces.find((item) => item.id === form.spaceId);
     setStatus('submitting');
-    window.setTimeout(() => setStatus('success'), 900);
+    setError('');
+    try {
+      await sendInquiry({
+        subject: `Campus hire — ${space?.name ?? 'Venue'}`,
+        replyTo: form.email.trim(),
+        fields: {
+          Name: form.name.trim(),
+          Email: form.email.trim(),
+          Organisation: form.organisation.trim(),
+          Space: space?.name ?? form.spaceId,
+          'Start date': form.startDate,
+          Nights: form.nights,
+          Participants: form.guests,
+          Notes: form.notes.trim()
+        }
+      });
+      setStatus('success');
+    } catch (sendError) {
+      setStatus('error');
+      setError(sendError instanceof Error ? sendError.message : 'The enquiry could not be sent.');
+    }
   }
 
   if (status === 'success') {
@@ -197,7 +221,7 @@ export function VenueInquiryForm() {
       {status === 'error' ?
       <p className="flex items-center gap-2 text-sm text-terracotta-600 dark:text-terracotta-300" role="alert">
           <AlertCircleIcon className="h-4 w-4 shrink-0" />
-          Please add your name, a valid email and a preferred start date.
+          {error || 'Please add your name, a valid email and a preferred start date.'}
         </p> :
       null}
 

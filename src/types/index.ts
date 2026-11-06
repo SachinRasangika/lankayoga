@@ -46,6 +46,7 @@ export interface Therapy {
   id: string;
   name: string;
   duration: string;
+  bookingWindow: string;
   doshas: Dosha[];
   description: string;
 }

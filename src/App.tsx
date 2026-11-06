@@ -10,6 +10,8 @@ import { Ayurveda } from './pages/Ayurveda';
 import { Retreats } from './pages/Retreats';
 import { Campus } from './pages/Campus';
 import { Journal } from './pages/Journal';
+import { BookStay } from './pages/BookStay';
+import { Contact } from './pages/Contact';
 
 interface AppProps {
   defaultTheme?: 'light' | 'dark';
@@ -30,6 +32,8 @@ export function App({ defaultTheme = 'light' }: AppProps) {
               <Route path="/retreats" element={<Retreats />} />
               <Route path="/campus" element={<Campus />} />
               <Route path="/journal" element={<Journal />} />
+              <Route path="/book" element={<BookStay />} />
+              <Route path="/contact" element={<Contact />} />
               <Route path="*" element={<Home />} />
             </Routes>
           </main>

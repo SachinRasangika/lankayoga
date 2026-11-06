@@ -9,7 +9,8 @@ import { SensoryScene } from '../components/home/SensoryScene';
 import { PinnedLines } from '../components/motion/PinnedLines';
 import { SoftImage } from '../components/motion/SoftImage';
 import { Reveal } from '../components/motion/Reveal';
-import { panchakarmaPhases, therapies } from '../data/ayurveda';
+import { TreatmentTable } from '../components/ayurveda/TreatmentTable';
+import { panchakarmaPhases } from '../data/ayurveda';
 import { programs } from '../data/programs';
 import { teachers } from '../data/teachers';
 import { media } from '../data/media';
@@ -92,29 +93,13 @@ export function Ayurveda() {
         </div>
       </Section>
 
-      <Section tone="warm">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-          <div className="lg:col-span-4">
-            <SectionIntro align="left" eyebrow="Therapies" title="Blended in our own apothecary" />
-            <SoftImage
-              src={media.steamBath}
-              alt="Steam curling in a dark wooden Ayurvedic steam chamber"
-              className="mt-10 h-72 lg:h-96"
-              drift={7} />
-            
-          </div>
-          <ul className="grid gap-x-10 gap-y-9 sm:grid-cols-2 lg:col-span-8">
-            {therapies.map((therapy) =>
-            <li key={therapy.id} className="flex flex-col gap-2 border-t border-line pt-5">
-                <div className="flex items-baseline justify-between gap-4">
-                  <h3 className="font-display text-2xl font-light tracking-tight text-ink">{therapy.name}</h3>
-                  <span className="text-xs text-muted">{therapy.duration}</span>
-                </div>
-                <p className="text-sm leading-relaxed text-muted">{therapy.description}</p>
-              </li>
-            )}
-          </ul>
-        </div>
+      <Section id="treatments" tone="warm">
+        <SectionIntro
+          eyebrow="Treatments"
+          title="Name, time, and when to book"
+          note="Choose a treatment, then email us inside its booking window." />
+        
+        <TreatmentTable />
       </Section>
 
       <SensoryScene
