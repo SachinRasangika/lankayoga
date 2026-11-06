@@ -1,6 +1,6 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import type { Plugin } from 'vite';
-import nodemailer from 'nodemailer';
+import { deliverInquiry } from './deliverInquiry';
 
 function readBody(req: IncomingMessage): Promise<unknown> {
   return new Promise((resolve, reject) => {
@@ -26,21 +26,7 @@ function readBody(req: IncomingMessage): Promise<unknown> {
   });
 }
 
-function textField(value: unknown, max = 2000): string {
-  return String(value ?? '').trim().slice(0, max);
-}
-
 export function inquiryPlugin(env: Record<string, string>): Plugin {
-  const user = env.SMTP_USER;
-  const pass = (env.SMTP_PASS ?? '').replace(/\s+/g, '');
-  const to = env.INQUIRY_TO;
-  const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: { user, pass }
-  });
-
   async function handle(req: IncomingMessage, res: ServerResponse) {
     res.setHeader('Content-Type', 'application/json');
     if (req.method !== 'POST') {
@@ -48,37 +34,11 @@ export function inquiryPlugin(env: Record<string, string>): Plugin {
       res.end(JSON.stringify({ error: 'Method not allowed.' }));
       return;
     }
-    if (!user || !pass || !to) {
-      res.statusCode = 500;
-      res.end(JSON.stringify({ error: 'Email is not configured on the server.' }));
-      return;
-    }
 
     try {
-      const body = (await readBody(req)) as { subject?: unknown; replyTo?: unknown; fields?: unknown };
-      const subject = textField(body.subject, 180) || 'Website inquiry';
-      const replyTo = textField(body.replyTo, 180);
-      const fields = body.fields && typeof body.fields === 'object' ? body.fields as Record<string, unknown> : {};
-      const lines = Object.entries(fields)
-        .map(([label, value]) => [textField(label, 80), textField(value)] as const)
-        .filter(([, value]) => value)
-        .map(([label, value]) => `${label}: ${value}`);
-
-      if (!lines.length) {
-        res.statusCode = 400;
-        res.end(JSON.stringify({ error: 'Please add a few details before sending.' }));
-        return;
-      }
-
-      await transporter.sendMail({
-        from: `Lanka Yoga website <${user}>`,
-        to,
-        replyTo: replyTo.includes('@') ? replyTo : undefined,
-        subject,
-        text: lines.join('\n')
-      });
-      res.statusCode = 200;
-      res.end(JSON.stringify({ ok: true }));
+      const result = await deliverInquiry(env, await readBody(req));
+      res.statusCode = result.status;
+      res.end(JSON.stringify(result.payload));
     } catch (error) {
       console.error('Inquiry email failed:', error);
       res.statusCode = 500;

@@ -7,6 +7,6 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   return {
     plugins: [react(), inquiryPlugin(env)],
-    base: '/lankayoga/',
+    base: process.env.VERCEL ? '/' : '/lankayoga/',
   }
 })

@@ -20,7 +20,7 @@ interface AppProps {
 export function App({ defaultTheme = 'light' }: AppProps) {
   return (
     <ThemeProvider defaultTheme={defaultTheme}>
-      <BrowserRouter basename="/lankayoga">
+      <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
         <ScrollToTop />
         <div className="flex min-h-screen w-full flex-col bg-surface">
           <SiteHeader />

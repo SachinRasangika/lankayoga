@@ -48,7 +48,7 @@ export function SiteHeader() {
         )}>
         
         <Link to="/" aria-label="Lanka Yoga & Ayurveda Resort — home" className="mr-auto flex items-center">
-          <BrandMark onImage={overImage} className="h-11 sm:h-12" />
+          <BrandMark onImage={overImage} className="h-16 sm:h-20" />
         </Link>
 
         <ul className="hidden items-center gap-1 lg:flex">
