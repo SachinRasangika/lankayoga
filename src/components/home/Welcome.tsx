@@ -10,7 +10,7 @@ export function Welcome() {
     <section className="bg-warm">
       <div className="mx-auto grid max-w-[1400px] items-center gap-14 px-5 py-24 sm:px-8 lg:grid-cols-12 lg:gap-16 lg:py-36">
         <div className="flex flex-col gap-6 lg:col-span-6 lg:pr-10">
-          <p className="eyebrow text-terracotta-600 dark:text-terracotta-300">Kurunegala, Sri Lanka</p>
+          <p className="eyebrow text-terracotta-600 dark:text-terracotta-300">Hikkaduwa, Sri Lanka</p>
           <motion.h2
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}

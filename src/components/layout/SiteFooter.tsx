@@ -44,7 +44,7 @@ export function SiteFooter() {
           <div className="flex flex-col gap-5">
             <BrandMark className="h-20 self-start" />
             <p className="max-w-sm text-sm leading-relaxed text-muted">
-              A lakeside eco-campus near Kurunegala, Sri Lanka.
+              A lakeside eco-campus near Hikkaduwa, Sri Lanka.
             </p>
             <a href={`mailto:${contact.email}`} className="text-sm text-ink underline underline-offset-4">
               {contact.email}

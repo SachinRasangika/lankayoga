@@ -67,7 +67,7 @@ export function Contact() {
               {contact.phoneDisplay}
             </a>
             <p className="max-w-sm text-sm leading-relaxed text-muted">
-              A lakeside eco-campus near Kurunegala, Sri Lanka. For a written reply, email{' '}
+              A lakeside eco-campus near Hikkaduwa, Sri Lanka. For a written reply, email{' '}
               <a href={`mailto:${contact.email}`} className="text-ink underline underline-offset-4">
                 {contact.email}
               </a>
