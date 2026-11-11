@@ -31,7 +31,7 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npm run build:spa
+        run: npm run build
 
       - name: SPA fallback
         run: cp dist/index.html dist/404.html
