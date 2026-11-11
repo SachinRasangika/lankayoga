@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { CheckIcon, XIcon } from 'lucide-react';
 import { Program } from '../../types';
-import { getTeachers } from '../../data/teachers';
-import { formatDateRange, formatPrice } from '../../utils/format';
+import { formatPrice, formatStayDates } from '../../utils/format';
+import { normalizeGallery } from '../../utils/gallery';
 import { durationLabel, focusLabels, kindLabels } from '../../utils/labels';
-import { Button } from '../ui/Button';
+import { ButtonLink } from '../ui/Button';
 
 interface ProgramDetailPanelProps {
   program: Program | null;
@@ -16,7 +15,6 @@ interface ProgramDetailPanelProps {
 const ease = [0.23, 1, 0.32, 1] as const;
 
 export function ProgramDetailPanel({ program, onClose }: ProgramDetailPanelProps) {
-  const navigate = useNavigate();
   useEffect(() => {
     function handleKey(event: KeyboardEvent) {
       if (event.key === 'Escape') onClose();
@@ -24,6 +22,9 @@ export function ProgramDetailPanel({ program, onClose }: ProgramDetailPanelProps
     document.addEventListener('keydown', handleKey);
     return () => document.removeEventListener('keydown', handleKey);
   }, [onClose]);
+
+  const photos = program ? normalizeGallery(program.image, program.images) : [];
+  const extras = photos.slice(1);
 
   return (
     <AnimatePresence>
@@ -45,7 +46,7 @@ export function ProgramDetailPanel({ program, onClose }: ProgramDetailPanelProps
           className="absolute inset-y-0 right-0 flex w-full max-w-xl flex-col bg-surface shadow-lift">
           
             <div className="relative shrink-0">
-              <img src={program.image} alt="" className="h-52 w-full object-cover" />
+              <img src={photos[0] || program.image} alt="" className="h-52 w-full object-cover" />
               <div className="absolute inset-0 bg-sand-900/35" />
               <button
               type="button"
@@ -66,7 +67,7 @@ export function ProgramDetailPanel({ program, onClose }: ProgramDetailPanelProps
             <div className="flex-1 overflow-y-auto px-5 py-6 sm:px-7">
               <dl className="grid grid-cols-2 gap-x-6 gap-y-4 border-b border-line pb-6 sm:grid-cols-4">
                 {[
-              { label: 'Dates', value: formatDateRange(program.startDate, program.endDate) },
+              { label: 'Dates', value: formatStayDates(program) },
               { label: 'Length', value: durationLabel(program.durationDays) },
               { label: 'Cohort', value: `${program.capacity} places` },
               { label: 'From', value: formatPrice(program.priceUsd) }].
@@ -79,6 +80,13 @@ export function ProgramDetailPanel({ program, onClose }: ProgramDetailPanelProps
               </dl>
 
               <p className="mt-6 text-[0.9375rem] leading-relaxed text-muted">{program.summary}</p>
+              {extras.length > 0 ?
+                <div className="mt-5 grid grid-cols-2 gap-2">
+                  {extras.map((src) =>
+                    <img key={src} src={src} alt="" className="aspect-[4/3] w-full rounded-2xl object-cover" />
+                  )}
+                </div> :
+                null}
               <p className="mt-3 text-sm text-muted">
                 <span className="text-ink">Level:</span> {program.level}
               </p>
@@ -107,21 +115,6 @@ export function ProgramDetailPanel({ program, onClose }: ProgramDetailPanelProps
                 )}
                 </ul>
               </section>
-
-              <section className="mt-8">
-                <h3 className="eyebrow text-terracotta-600 dark:text-terracotta-300">Led by</h3>
-                <ul className="mt-4 flex flex-col gap-4">
-                  {getTeachers(program.teacherIds).map((teacher) =>
-                <li key={teacher.id} className="flex items-center gap-3.5">
-                      <img src={teacher.image} alt="" className="h-12 w-12 rounded-full object-cover" />
-                      <div className="min-w-0">
-                        <p className="text-sm font-medium text-ink">{teacher.name}</p>
-                        <p className="truncate text-xs text-muted">{teacher.role}</p>
-                      </div>
-                    </li>
-                )}
-                </ul>
-              </section>
             </div>
 
             <div className="glass-panel flex shrink-0 items-center justify-between gap-4 border-x-0 border-b-0 px-5 py-4 sm:px-7">
@@ -130,25 +123,12 @@ export function ProgramDetailPanel({ program, onClose }: ProgramDetailPanelProps
                 <p className="text-xs text-muted">{program.spotsLeft} of {program.capacity} places remaining</p>
               </div>
               <div className="flex gap-2">
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => {
-                    onClose();
-                    navigate(`/contact?topic=${encodeURIComponent(`${program.title} (${formatDateRange(program.startDate, program.endDate)})`)}`);
-                  }}>
-                  
+                <ButtonLink to={`/contact?topic=${encodeURIComponent(program.title)}`} variant="secondary" size="sm">
                   Ask a question
-                </Button>
-                <Button
-                  size="sm"
-                  onClick={() => {
-                    onClose();
-                    navigate(`/book?program=${program.id}`);
-                  }}>
-                  
+                </ButtonLink>
+                <ButtonLink to={`/book?program=${program.id}`} size="sm">
                   Reserve a place
-                </Button>
+                </ButtonLink>
               </div>
             </div>
           </motion.aside>

@@ -17,7 +17,7 @@ import { PageHero } from '../components/layout/PageHero';
 import { Section } from '../components/layout/Section';
 import { Button } from '../components/ui/Button';
 import { programs, getProgram } from '../data/programs';
-import { contact } from '../data/contact';
+import { business } from '../data/business';
 import { sendInquiry } from '../utils/sendInquiry';
 import { media } from '../data/media';
 import { cn } from '../utils/cn';
@@ -115,8 +115,8 @@ export function BookStay() {
         image={media.ecoCabin}
         imageAlt="An eco cabin with linen and a view toward the lake"
         meta={[
-        { label: 'Email', value: contact.email },
-        { label: 'Call', value: contact.phoneDisplay }]
+        { label: 'Email', value: business.email },
+        { label: 'Call', value: business.telephoneDisplay }]
         } />
       
 
@@ -274,7 +274,7 @@ export function BookStay() {
               </Button>
               {status === 'sent' ?
               <p className="text-sm leading-relaxed text-muted">
-                  Sent. We will reply to {email.trim()}, or you can call {contact.phoneDisplay}.
+                  Sent. We will reply to {email.trim()}, or you can call {business.telephoneDisplay}.
                 </p> :
               null}
               {status === 'error' ?

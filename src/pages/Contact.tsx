@@ -1,133 +1,88 @@
-import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { PageHero } from '../components/layout/PageHero';
 import { Section } from '../components/layout/Section';
-import { Button } from '../components/ui/Button';
-import { contact } from '../data/contact';
+import { ContactForm } from '../components/contact/ContactForm';
 import { media } from '../data/media';
-import { sendInquiry } from '../utils/sendInquiry';
+import {
+  business,
+  businessAddressLine,
+  businessMapsEmbedUrl,
+  businessMapsUrl
+} from '../data/business';
 
-const fieldClass =
-'w-full rounded-xl border border-line bg-surface px-4 py-3 text-sm text-ink placeholder:text-muted/70 transition-colors duration-200 focus:border-sage-400 focus:outline-none';
+const details: { label: string; value: string; href?: string; external?: boolean }[] = [
+  { label: 'Name', value: business.name },
+  { label: 'Address', value: businessAddressLine, href: businessMapsUrl, external: true },
+  { label: 'Phone', value: business.telephoneDisplay, href: `tel:${business.telephone}` },
+  { label: 'Write', value: business.email, href: `mailto:${business.email}` },
+  { label: 'Reply', value: 'Within one working day' }
+];
 
 export function Contact() {
   const [searchParams] = useSearchParams();
   const topic = searchParams.get('topic') ?? '';
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState(topic ? `I would like to ask about ${topic}.\n\n` : '');
-  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
-  const [error, setError] = useState('');
-
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (!name.trim() || !email.includes('@') || !message.trim()) return;
-    setStatus('sending');
-    setError('');
-    try {
-      await sendInquiry({
-        subject: topic ? `Inquiry — ${topic}` : `Message from ${name.trim()}`,
-        replyTo: email.trim(),
-        fields: {
-          Name: name.trim(),
-          Email: email.trim(),
-          Topic: topic,
-          Message: message.trim()
-        }
-      });
-      setStatus('sent');
-    } catch (sendError) {
-      setStatus('error');
-      setError(sendError instanceof Error ? sendError.message : 'The message could not be sent.');
-    }
-  }
 
   return (
     <>
       <PageHero
         eyebrow="Contact"
-        title="Call, or write"
-        lede="The number below is the one to use for stays, treatments and campus hire."
-        image={media.verandahRest}
-        imageAlt="A quiet verandah overlooking the lake"
+        title="Write before you pack"
+        lede="Ask about a stay, a healing programme, or a yoga retreat in Hikkaduwa. A person reads every note."
+        image={media.jettySunset}
+        imageAlt="A wooden jetty over a still lake at sunset"
         meta={[
-        { label: 'Phone', value: contact.phoneDisplay },
-        { label: 'Email', value: contact.email }]
-        } />
-      
+          { label: 'Write', value: 'Email' },
+          { label: 'Place', value: 'Hikkaduwa' },
+          { label: 'Reply', value: '1 day' }
+        ]} />
 
-      <Section tone="base" size="md">
+      <Section tone="base">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-          <div className="flex flex-col gap-6 lg:col-span-5">
-            <p className="eyebrow text-terracotta-600 dark:text-terracotta-300">Phone</p>
-            <a
-              href={`tel:${contact.phoneTel}`}
-              className="font-display text-4xl font-light tracking-tight text-ink underline-offset-8 hover:underline sm:text-5xl">
-              
-              {contact.phoneDisplay}
-            </a>
-            <p className="max-w-sm text-sm leading-relaxed text-muted">
-              A lakeside eco-campus near Hikkaduwa, Sri Lanka. For a written reply, email{' '}
-              <a href={`mailto:${contact.email}`} className="text-ink underline underline-offset-4">
-                {contact.email}
-              </a>
-              .
-            </p>
+          <div className="flex flex-col gap-8 lg:col-span-4">
+            <div>
+              <p className="eyebrow text-terracotta-600 dark:text-terracotta-300">Reach us</p>
+              <h2 className="mt-3 font-display text-3xl font-light tracking-tight text-ink sm:text-4xl">
+                A small desk, not a call centre
+              </h2>
+              <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted">
+                Tell us roughly when you would like to come. We will write back with dates that still have space.
+              </p>
+            </div>
+            <dl className="flex flex-col gap-6 border-t border-line pt-6">
+              {details.map((item) =>
+                <div key={item.label} className="flex flex-col gap-1">
+                  <dt className="text-[0.625rem] uppercase tracking-widest text-muted">{item.label}</dt>
+                  <dd className="text-sm text-ink">
+                    {item.href ?
+                      <a
+                        href={item.href}
+                        className="underline underline-offset-4 hover:text-sage-700"
+                        {...(item.external ? { target: '_blank', rel: 'noreferrer' } : {})}>
+                        {item.value}
+                      </a> :
+                      item.value}
+                  </dd>
+                </div>
+              )}
+            </dl>
           </div>
-
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4 rounded-3xl border border-line bg-raised p-6 sm:p-8 lg:col-span-7">
-            <div className="flex flex-col gap-2">
-              <label htmlFor="contact-name" className="text-[0.8125rem] font-medium text-ink">
-                Name
-              </label>
-              <input
-                id="contact-name"
-                required
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-                className={fieldClass} />
-              
-            </div>
-            <div className="flex flex-col gap-2">
-              <label htmlFor="contact-email" className="text-[0.8125rem] font-medium text-ink">
-                Email
-              </label>
-              <input
-                id="contact-email"
-                type="email"
-                required
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                className={fieldClass} />
-              
-            </div>
-            <div className="flex flex-col gap-2">
-              <label htmlFor="contact-message" className="text-[0.8125rem] font-medium text-ink">
-                Message
-              </label>
-              <textarea
-                id="contact-message"
-                required
-                rows={5}
-                value={message}
-                onChange={(event) => setMessage(event.target.value)}
-                className={fieldClass} />
-              
-            </div>
-            <Button type="submit" disabled={status === 'sending'}>
-              {status === 'sending' ? 'Sending' : 'Send message'}
-            </Button>
-            {status === 'sent' ?
-            <p className="text-sm leading-relaxed text-muted">
-                Sent. We will reply to {email.trim()}. You can also call {contact.phoneDisplay}.
-              </p> :
-            null}
-            {status === 'error' ?
-            <p className="text-sm text-terracotta-600 dark:text-terracotta-300" role="alert">{error}</p> :
-            null}
-          </form>
+          <div className="lg:col-span-8">
+            <ContactForm inquiryTopic={topic} />
+          </div>
         </div>
       </Section>
-    </>);
 
+      <Section tone="warm" size="md">
+        <div className="overflow-hidden rounded-3xl border border-line bg-raised">
+          <iframe
+            title="Map of Lanka Yoga & Ayurveda Resort in Hikkaduwa"
+            src={businessMapsEmbedUrl}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="h-[22rem] w-full border-0 sm:h-[28rem]"
+          />
+        </div>
+      </Section>
+    </>
+  );
 }

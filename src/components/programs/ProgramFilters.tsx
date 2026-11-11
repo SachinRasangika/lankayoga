@@ -9,6 +9,8 @@ interface ProgramFiltersProps {
   months: {key: string;iso: string;}[];
   resultCount: number;
   activeCount: number;
+  hideFocus?: boolean;
+  hideKind?: boolean;
   onUpdate: <K extends keyof ProgramFilterState>(key: K, value: ProgramFilterState[K]) => void;
   onReset: () => void;
 }
@@ -42,12 +44,15 @@ export function ProgramFilters({
   months,
   resultCount,
   activeCount,
+  hideFocus = false,
+  hideKind = false,
   onUpdate,
   onReset
 }: ProgramFiltersProps) {
   return (
-    <div className="sticky top-[4.75rem] z-30 sm:top-[5.25rem]">
+    <div className="sticky top-[6.5rem] z-30 sm:top-[7.25rem]">
       <div className="glass-panel flex flex-col gap-4 rounded-3xl p-4 shadow-lift sm:flex-row sm:items-center sm:gap-5 sm:rounded-full sm:py-3 sm:pl-4 sm:pr-5">
+        {hideFocus ? null :
         <div
           role="group"
           aria-label="Wellness focus"
@@ -69,10 +74,10 @@ export function ProgramFilters({
                 )}>
                 
                 {option.label}
-              </button>);
+                </button>);
 
           })}
-        </div>
+        </div>}
 
         <div className="flex flex-wrap items-center gap-2">
           <label className="sr-only" htmlFor="filter-duration">
@@ -91,6 +96,8 @@ export function ProgramFilters({
             )}
           </select>
 
+          {hideKind ? null :
+          <>
           <label className="sr-only" htmlFor="filter-kind">
             Format
           </label>
@@ -106,6 +113,7 @@ export function ProgramFilters({
               </option>
             )}
           </select>
+          </>}
 
           <label className="sr-only" htmlFor="filter-month">
             Month

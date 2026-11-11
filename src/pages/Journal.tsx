@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { JournalCard } from '../components/journal/JournalCard';
-import { journalCategories, journalPosts } from '../data/journal';
+import { useContent } from '../admin/content';
 import { media } from '../data/media';
 import { cn } from '../utils/cn';
 
 export function Journal() {
+  const { publishedPosts } = useContent();
   const [category, setCategory] = useState('All');
-  const filtered = category === 'All' ? journalPosts : journalPosts.filter((post) => post.category === category);
+  const journalCategories = ['All', ...Array.from(new Set(publishedPosts.map((post) => post.category)))];
+  const filtered = category === 'All' ? publishedPosts : publishedPosts.filter((post) => post.category === category);
   const [featured, ...rest] = filtered;
 
   return (

@@ -7,11 +7,11 @@ import { media } from '../../data/media';
 
 const paths = [
 {
-  to: '/teacher-training',
-  label: 'Learn to teach',
-  line: '200 hours. One residency. Sixteen people.',
+  to: '/yoga',
+  label: 'Come to rest',
+  line: 'A week of practice, meals, and long empty afternoons.',
   image: media.yttPractice,
-  alt: 'Students practising together in the open-air shala'
+  alt: 'Guests practising together in the open-air shala'
 },
 {
   to: '/ayurveda',
@@ -25,7 +25,7 @@ const paths = [
 export function TwoPaths() {
   return (
     <Section tone="base">
-      <SectionIntro eyebrow="Two reasons people come" title="Learn, or be looked after" />
+      <SectionIntro eyebrow="Two reasons people come" title="Rest, or be looked after" />
       <div className="mt-14 grid gap-4 sm:gap-6 lg:grid-cols-2">
         {paths.map((path) =>
         <Link

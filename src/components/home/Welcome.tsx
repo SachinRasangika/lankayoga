@@ -10,7 +10,7 @@ export function Welcome() {
     <section className="bg-warm">
       <div className="mx-auto grid max-w-[1400px] items-center gap-14 px-5 py-24 sm:px-8 lg:grid-cols-12 lg:gap-16 lg:py-36">
         <div className="flex flex-col gap-6 lg:col-span-6 lg:pr-10">
-          <p className="eyebrow text-terracotta-600 dark:text-terracotta-300">Hikkaduwa, Sri Lanka</p>
+          <p className="eyebrow text-terracotta-600 dark:text-terracotta-300">Yoga retreat Hikkaduwa</p>
           <motion.h2
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -18,15 +18,17 @@ export function Welcome() {
             transition={{ duration: 0.3, ease }}
             className="font-display text-[2.25rem] font-light leading-[1.1] tracking-tight text-ink sm:text-5xl">
             
-            A lake, nine acres, <span className="italic">and very little noise</span>
+            A short walk from the beach, <span className="italic">and very little noise</span>
           </motion.h2>
           <p className="max-w-md text-[0.9375rem] leading-relaxed text-muted">
-            Everything here is within a two-minute walk: the shala, the therapy rooms, the garden your food comes from.
+            Lanka Yoga &amp; Ayurveda Resort sits in a quiet pocket of Hikkaduwa, a few minutes from the beach. Yoga, Ayurveda, and seven garden rooms — all within a short walk. Twenty-eight guests share a lake and nine acres.
           </p>
-          <dl className="mt-2 flex gap-10">
+          <dl className="mt-2 flex flex-wrap gap-x-10 gap-y-6">
             {[
+            { label: 'Guest rooms', value: '7' },
+            { label: 'Minutes from the beach', value: '5' },
             { label: 'Guests at a time', value: '28' },
-            { label: 'Minutes from the shala', value: '2' }].
+            { label: 'The grounds', value: '9 acres' }].
             map((item) =>
             <div key={item.label} className="flex flex-col gap-1">
                 <dt className="sr-only">{item.label}</dt>

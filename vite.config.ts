@@ -7,6 +7,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   return {
     plugins: [react(), inquiryPlugin(env)],
-    base: process.env.VERCEL ? '/' : '/lankayoga/',
+    // GitHub Pages lives at /lankayoga/; Vercel and local dev use the site root.
+    base: process.env.GITHUB_ACTIONS ? '/lankayoga/' : '/',
   }
 })

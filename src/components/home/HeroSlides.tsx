@@ -65,7 +65,7 @@ export function HeroSlides() {
         style={reduceMotion ? undefined : { y: contentY, opacity: contentOpacity }}
         className="relative mx-auto flex h-full max-w-[1400px] flex-col justify-end px-5 pb-10 pt-32 sm:px-8 sm:pb-14">
         
-        <p className="eyebrow text-sand-200">Lanka Yoga &amp; Ayurveda · Hikkaduwa, Sri Lanka</p>
+        <p className="eyebrow text-sand-200">Lanka Yoga &amp; Ayurveda Resort · Hikkaduwa</p>
 
         <div className="mt-6 min-h-[19rem] sm:min-h-[17rem] lg:min-h-[16rem]">
           <AnimatePresence mode="wait">

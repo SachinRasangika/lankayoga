@@ -54,3 +54,19 @@ export function ButtonLink({ to, variant = 'primary', size = 'md', className, ch
     </Link>);
 
 }
+
+interface ButtonHrefProps extends BaseProps {
+  href: string;
+  external?: boolean;
+}
+
+export function ButtonHref({ href, variant = 'primary', size = 'md', className, children, external }: ButtonHrefProps) {
+  return (
+    <a
+      href={href}
+      className={classesFor(variant, size, className)}
+      {...(external ? { target: '_blank', rel: 'noreferrer' } : {})}>
+      {children}
+    </a>
+  );
+}

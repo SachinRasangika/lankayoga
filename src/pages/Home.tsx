@@ -13,6 +13,7 @@ import { SoundOfPlace } from '../components/home/SoundOfPlace';
 import { StayGallery } from '../components/home/StayGallery';
 import { SenseCards } from '../components/home/SenseCards';
 import { QuietDates } from '../components/home/QuietDates';
+import { FindUs } from '../components/home/FindUs';
 import { VirtualTour } from '../components/media/VirtualTour';
 import { Section } from '../components/layout/Section';
 import { SectionIntro } from '../components/layout/SectionIntro';
@@ -61,8 +62,8 @@ export function Home() {
               title="Stand in the shala from where you are"
               note="Drag to look around. Four spaces." />
             
-            <ButtonLink to="/campus" variant="secondary" size="sm" className="mt-8">
-              Campus
+            <ButtonLink to="/contact" variant="secondary" size="sm" className="mt-8">
+              Contact us
             </ButtonLink>
           </div>
           <div className="lg:col-span-8">
@@ -97,13 +98,15 @@ export function Home() {
         </dl>
       </Section>
 
+      <FindUs />
+
       <Section tone="raised" size="md">
         <div className="flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
           <h2 className="max-w-xl font-display text-3xl font-light leading-[1.1] tracking-tight text-ink sm:text-[2.5rem]">
-            Teaching your own group? Take the whole campus.
+            Ready to come? Write to us.
           </h2>
-          <ButtonLink to="/campus">
-            Enquire
+          <ButtonLink to="/contact">
+            Contact us
             <ArrowRightIcon className="h-4 w-4" />
           </ButtonLink>
         </div>
