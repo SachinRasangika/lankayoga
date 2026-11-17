@@ -3,12 +3,13 @@ import { PageHero } from '../components/layout/PageHero';
 import { Section } from '../components/layout/Section';
 import { ContactForm } from '../components/contact/ContactForm';
 import { media } from '../data/media';
-import { useLiveBusiness } from '../lib/siteCopy';
+import { useLiveBusiness, useSiteCopy } from '../lib/siteCopy';
 
 export function Contact() {
   const [searchParams] = useSearchParams();
   const topic = searchParams.get('topic') ?? '';
   const { business, addressLine, mapsUrl, mapsEmbedUrl } = useLiveBusiness();
+  const page = useSiteCopy().pages.contactPage;
   const details: { label: string; value: string; href?: string; external?: boolean }[] = [
     { label: 'Name', value: business.name },
     { label: 'Address', value: addressLine, href: mapsUrl, external: true },
@@ -20,27 +21,23 @@ export function Contact() {
   return (
     <>
       <PageHero
-        eyebrow="Contact"
-        title="Write before you pack"
-        lede="Ask about a stay, a healing programme, or a yoga retreat in Hikkaduwa. A person reads every note."
+        eyebrow={page.eyebrow}
+        title={page.title}
+        lede={page.lede}
         image={media.jettySunset}
         imageAlt="A wooden jetty over a still lake at sunset"
-        meta={[
-          { label: 'Write', value: 'Email' },
-          { label: 'Place', value: 'Hikkaduwa' },
-          { label: 'Reply', value: '1 day' }
-        ]} />
+        meta={page.facts} />
 
       <Section tone="base">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="flex flex-col gap-8 lg:col-span-4">
             <div>
-              <p className="eyebrow text-terracotta-600 dark:text-terracotta-300">Reach us</p>
+              <p className="eyebrow text-terracotta-600 dark:text-terracotta-300">{page.deskEyebrow}</p>
               <h2 className="mt-3 font-display text-3xl font-light tracking-tight text-ink sm:text-4xl">
-                A small desk, not a call centre
+                {page.deskTitle}
               </h2>
               <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted">
-                Tell us roughly when you would like to come. We will write back with dates that still have space.
+                {page.deskNote}
               </p>
             </div>
             <dl className="flex flex-col gap-6 border-t border-line pt-6">

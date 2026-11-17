@@ -17,7 +17,7 @@ import { PageHero } from '../components/layout/PageHero';
 import { Section } from '../components/layout/Section';
 import { Button } from '../components/ui/Button';
 import { programs, getProgram } from '../data/programs';
-import { useLiveBusiness } from '../lib/siteCopy';
+import { useLiveBusiness, useSiteCopy } from '../lib/siteCopy';
 import { sendInquiry } from '../utils/sendInquiry';
 import { media } from '../data/media';
 import { cn } from '../utils/cn';
@@ -41,6 +41,7 @@ const fieldClass =
 
 export function BookStay() {
   const { business } = useLiveBusiness();
+  const page = useSiteCopy().pages.book;
   const [searchParams] = useSearchParams();
   const preset = getProgram(searchParams.get('program') ?? '');
   const [month, setMonth] = useState(() => startOfMonth(preset ? parseISO(preset.startDate) : new Date()));
@@ -110,9 +111,9 @@ export function BookStay() {
   return (
     <>
       <PageHero
-        eyebrow="Book a stay"
-        title="Choose your dates, or write to us"
-        lede="The calendar shows when a programme is already running. Pick your own arrival and departure, or send an email without choosing dates."
+        eyebrow={page.eyebrow}
+        title={page.title}
+        lede={page.lede}
         image={media.ecoCabin}
         imageAlt="An eco cabin with linen and a view toward the lake"
         meta={[

@@ -4,9 +4,11 @@ import { JournalCard } from '../components/journal/JournalCard';
 import { useContent } from '../admin/content';
 import { media } from '../data/media';
 import { cn } from '../utils/cn';
+import { useSiteCopy } from '../lib/siteCopy';
 
 export function Journal() {
   const { publishedPosts } = useContent();
+  const page = useSiteCopy().pages.journal;
   const [category, setCategory] = useState('All');
   const journalCategories = ['All', ...Array.from(new Set(publishedPosts.map((post) => post.category)))];
   const filtered = category === 'All' ? publishedPosts : publishedPosts.filter((post) => post.category === category);
@@ -25,9 +27,9 @@ export function Journal() {
         
         <div className="absolute inset-0 bg-sand-900/45" />
         <div className="relative mx-auto w-full max-w-[1400px] px-5 pb-16 sm:px-8 sm:pb-20">
-          <p className="eyebrow text-sand-200">Journal</p>
+          <p className="eyebrow text-sand-200">{page.eyebrow}</p>
           <h1 className="mt-4 max-w-2xl font-display text-[2.5rem] font-light leading-[1.04] tracking-tight text-white sm:text-6xl">
-            Slow notes from the campus
+            {page.title}
           </h1>
         </div>
       </section>

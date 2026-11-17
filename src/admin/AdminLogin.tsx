@@ -40,7 +40,7 @@ export function AdminLogin() {
         <p className="eyebrow text-muted">Staff only</p>
         <h1 className="mt-3 font-display text-3xl font-light tracking-tight text-ink sm:text-4xl">Sign in to update the site</h1>
         <p className="mt-3 text-sm leading-relaxed text-muted">
-          Edit the homepage words, packages, classes, treatments, and journal. Homepage changes show as soon as you save. Other items stay private until you mark them Live.
+          Edit the words on each page, plus packages, classes, treatments, and journal. Page words show as soon as you save. Other items stay private until you mark them Live.
         </p>
         {!configured ?
           <p className="mt-6 rounded-2xl bg-warm px-4 py-3 text-sm text-terracotta-700">

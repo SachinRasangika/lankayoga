@@ -9,7 +9,7 @@ import { ProgramDetailPanel } from '../components/programs/ProgramDetailPanel';
 import { SensoryScene } from '../components/home/SensoryScene';
 import { SoftImage } from '../components/motion/SoftImage';
 import { Reveal } from '../components/motion/Reveal';
-import { admissionSteps } from '../data/curriculum';
+import { useSiteCopy } from '../lib/siteCopy';
 import { programs } from '../data/programs';
 import { teachers } from '../data/teachers';
 import { media } from '../data/media';
@@ -17,28 +17,24 @@ import { Program } from '../types';
 
 export function TeacherTraining() {
   const [selected, setSelected] = useState<Program | null>(null);
+  const page = useSiteCopy().pages.training;
   const trainings = programs.filter((program) => program.kind === 'training');
 
   return (
     <>
       <PageHero
-        eyebrow="Teacher Training"
-        title="200 hours. One residency."
-        lede="Twenty-five days on campus, sixteen people, and a physician watching what your body is asked to do."
+        eyebrow={page.eyebrow}
+        title={page.title}
+        lede={page.lede}
         image={media.yttPractice}
         imageAlt="Students in seated practice in the open-air shala during teacher training"
-        meta={[
-        { label: 'Hours', value: '200' },
-        { label: 'Days', value: '25' },
-        { label: 'Cohort', value: '16' },
-        { label: 'Registered', value: 'RYS 200' }]
-        } />
+        meta={page.facts} />
       
 
       <Section tone="base">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-20">
           <div className="lg:col-span-4">
-            <SectionIntro align="left" eyebrow="Curriculum" title="Six modules, published in full" />
+            <SectionIntro align="left" eyebrow={page.curriculumEyebrow} title={page.curriculumTitle} />
             <SoftImage
               src={media.handsMudra}
               alt="Relaxed hands resting on crossed knees in a simple mudra"
@@ -55,13 +51,13 @@ export function TeacherTraining() {
       <SensoryScene
         image={media.dawnCanoe}
         alt="A wooden canoe on a still misty lake at first light"
-        line="The first practice begins"
-        emphasis="before the light does."
+        line={page.dawnLine}
+        emphasis={page.dawnEmphasis}
         foreground={media.reedsEdge} />
       
 
       <Section tone="warm">
-        <SectionIntro eyebrow="Faculty" title="Three teachers, all of them here" />
+        <SectionIntro eyebrow={page.facultyEyebrow} title={page.facultyTitle} />
         <ul className="mt-16 grid gap-12 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {teachers.map((teacher, index) =>
           <li key={teacher.id} className="flex">
@@ -76,7 +72,7 @@ export function TeacherTraining() {
       <Section tone="base">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-20">
           <div className="lg:col-span-4">
-            <SectionIntro align="left" eyebrow="Admission" title="We speak to everyone first" />
+            <SectionIntro align="left" eyebrow={page.admissionEyebrow} title={page.admissionTitle} />
             <SoftImage
               src={media.shalaEmpty}
               alt="The empty shala with mats rolled and bolsters stacked between practices"
@@ -85,7 +81,7 @@ export function TeacherTraining() {
             
           </div>
           <ol className="flex flex-col lg:col-span-8">
-            {admissionSteps.map((step, index) =>
+            {page.steps.map((step, index) =>
             <li key={step.title} className="flex gap-6 border-b border-line py-6 first:pt-0 last:border-b-0">
                 <span className="mt-1 font-display text-base font-light text-terracotta-600 dark:text-terracotta-300">
                   {String(index + 1).padStart(2, '0')}
@@ -103,13 +99,13 @@ export function TeacherTraining() {
       <SensoryScene
         image={media.singingBowl}
         alt="An aged brass singing bowl resting on dark stone"
-        line="One bowl,"
-        emphasis="struck once, at dusk." />
+        line={page.duskLine}
+        emphasis={page.duskEmphasis} />
       
 
       <Section tone="raised">
         <div className="mx-auto max-w-3xl">
-          <SectionIntro eyebrow="Intakes" title="Two cohorts a year" />
+          <SectionIntro eyebrow={page.intakesEyebrow} title={page.intakesTitle} />
           <div className="mt-14 border-t border-line">
             {trainings.map((program) =>
             <ProgramCard key={program.id} program={program} onSelect={setSelected} />

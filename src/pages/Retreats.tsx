@@ -11,6 +11,7 @@ import { media } from '../data/media';
 import { DurationFilter, FocusFilter, KindFilter, useProgramFilters } from '../hooks/useProgramFilters';
 import { formatMonthLabel } from '../utils/format';
 import { Program } from '../types';
+import { useSiteCopy } from '../lib/siteCopy';
 
 export function Retreats() {
   const [searchParams] = useSearchParams();
@@ -27,6 +28,7 @@ export function Retreats() {
   );
 
   const { filters, update, reset, results, months, activeCount } = useProgramFilters(programs, initial);
+  const page = useSiteCopy().pages.retreats;
 
   const grouped = useMemo(() => {
     const map = new Map<string, Program[]>();
@@ -50,9 +52,9 @@ export function Retreats() {
         
         <div className="absolute inset-0 bg-sand-900/45" />
         <div className="relative mx-auto w-full max-w-[1400px] px-5 pb-20 sm:px-8 sm:pb-24">
-          <p className="eyebrow text-sand-200">Calendar</p>
+          <p className="eyebrow text-sand-200">{page.eyebrow}</p>
           <h1 className="mt-4 max-w-2xl font-display text-[2.5rem] font-light leading-[1.04] tracking-tight text-white sm:text-6xl">
-            Every date, in one quiet list
+            {page.title}
           </h1>
         </div>
       </section>
@@ -72,7 +74,7 @@ export function Retreats() {
         {results.length === 0 ?
         <div className="flex flex-col items-center gap-5 py-28 text-center">
             <CalendarSearchIcon className="h-7 w-7 text-sage-500" />
-            <h2 className="font-display text-2xl font-light text-ink">Nothing on those dates</h2>
+            <h2 className="font-display text-2xl font-light text-ink">{page.emptyTitle}</h2>
             <Button variant="secondary" size="sm" onClick={reset}>
               Clear filters
             </Button>

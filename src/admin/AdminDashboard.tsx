@@ -31,11 +31,11 @@ export function AdminDashboard() {
       <div>
         <p className="eyebrow text-muted">Home</p>
         <h1 className="mt-1 font-display text-3xl font-light tracking-tight sm:text-4xl">Update the site</h1>
-        <p className="mt-2 text-sm text-muted">Homepage words, packages, classes, treatments, and journal. Only Live items show to guests.</p>
+        <p className="mt-2 text-sm text-muted">Page words, packages, classes, treatments, and journal. Only Live items show to guests.</p>
       </div>
 
       <ButtonLink to="/admin/homepage" className="min-h-12">
-        Edit homepage words
+        Edit page words
       </ButtonLink>
 
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">

@@ -7,7 +7,7 @@ import { ThemeToggle } from '../components/layout/ThemeToggle';
 
 const nav = [
   { to: '/admin', label: 'Home', icon: LayoutDashboardIcon, end: true },
-  { to: '/admin/homepage', label: 'Homepage', icon: PenLineIcon, end: false },
+  { to: '/admin/homepage', label: 'Pages', icon: PenLineIcon, end: false },
   { to: '/admin/packages', label: 'Packages', icon: CalendarDaysIcon, end: false },
   { to: '/admin/classes', label: 'Classes', icon: SunIcon, end: false },
   { to: '/admin/timetable', label: 'Timetable', icon: Clock3Icon, end: false },

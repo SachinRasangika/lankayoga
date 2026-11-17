@@ -8,32 +8,30 @@ import { useContent } from '../admin/content';
 import { media } from '../data/media';
 import { coverOf } from '../utils/gallery';
 import { treatmentPath } from '../utils/stays';
+import { useSiteCopy } from '../lib/siteCopy';
 
 export function Treatments() {
   const { publishedTreatments } = useContent();
+  const page = useSiteCopy().pages.treatments;
 
   return (
     <>
       <PageHero
-        eyebrow="Treatments"
-        title="Warm oil, poured slowly"
-        lede="Six rooms, an apothecary of our own, and a physician who decides which therapies your pulse asks for."
+        eyebrow={page.eyebrow}
+        title={page.title}
+        lede={page.lede}
         image={media.therapyRoom}
         imageAlt="Traditional Ayurvedic treatment room with wooden therapy table and brass oil vessels"
-        meta={[
-          { label: 'Rooms', value: '6' },
-          { label: 'Physician', value: 'Daily' },
-          { label: 'Oils', value: 'Our own' }
-        ]} />
+        meta={page.facts} />
 
       <Section tone="base">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-4">
             <SectionIntro
               align="left"
-              eyebrow="The wing"
-              title="Blended in our own apothecary"
-              note="Most stays include treatments. A private hour can be arranged if you are not on a healing programme." />
+              eyebrow={page.wingEyebrow}
+              title={page.wingTitle}
+              note={page.wingNote} />
             <SoftImage
               src={media.steamBath}
               alt="Steam curling in a dark wooden Ayurvedic steam chamber"
@@ -75,12 +73,12 @@ export function Treatments() {
       <Section tone="warm">
         <div className="flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-xl">
-            <p className="eyebrow text-terracotta-600 dark:text-terracotta-300">A full protocol</p>
+            <p className="eyebrow text-terracotta-600 dark:text-terracotta-300">{page.closingEyebrow}</p>
             <h2 className="mt-3 font-display text-3xl font-light tracking-tight text-ink sm:text-[2.5rem]">
-              Panchakarma is a stay, not a single treatment
+              {page.closingTitle}
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-muted">
-              If you need a sequence written to your pulse, look at the Ayurveda dates. For one treatment while you practise, write to the desk.
+              {page.closingNote}
             </p>
           </div>
           <div className="flex flex-wrap gap-3">

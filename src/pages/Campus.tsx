@@ -10,26 +10,23 @@ import { Reveal } from '../components/motion/Reveal';
 import { hostingIncludes, venueSpaces } from '../data/venues';
 import { media } from '../data/media';
 import { formatPrice } from '../utils/format';
+import { useSiteCopy } from '../lib/siteCopy';
 
 export function Campus() {
+  const page = useSiteCopy().pages.campus;
   return (
     <>
       <PageHero
-        eyebrow="Campus & Hire"
-        title="Nine acres, yours between our own intakes"
-        lede="A shala on the water, six therapy rooms, 28 beds — and a team that hosts retreats every week."
+        eyebrow={page.eyebrow}
+        title={page.title}
+        lede={page.lede}
         image={media.campusAerial}
         imageAlt="Aerial view of the eco campus beside the lake, surrounded by palm canopy"
-        meta={[
-        { label: 'Beds', value: '28' },
-        { label: 'Shala', value: '120 m²' },
-        { label: 'Therapy rooms', value: '6' },
-        { label: 'Grounds', value: '9 acres' }]
-        } />
+        meta={page.facts} />
       
 
       <Section tone="base">
-        <SectionIntro eyebrow="360° tour" title="Look around first" />
+        <SectionIntro eyebrow={page.tourEyebrow} title={page.tourTitle} />
         <div className="mt-14">
           <VirtualTour />
         </div>
@@ -38,19 +35,19 @@ export function Campus() {
       <SensoryScene
         image={media.palmPath}
         alt="A stone path curving through tall coconut palms"
-        line="Nine acres,"
-        emphasis="no straight lines in it." />
+        line={page.pathLine}
+        emphasis={page.pathEmphasis} />
       
 
       <Section tone="warm">
-        <SectionIntro eyebrow="Gallery" title="Where you will sleep and practise" />
+        <SectionIntro eyebrow={page.galleryEyebrow} title={page.galleryTitle} />
         <div className="mt-14">
           <MediaGallery />
         </div>
       </Section>
 
       <Section tone="base">
-        <SectionIntro eyebrow="Spaces" title="One room, or all of it" />
+        <SectionIntro eyebrow={page.spacesEyebrow} title={page.spacesTitle} />
         <ul className="mx-auto mt-14 flex max-w-4xl flex-col">
           {venueSpaces.map((space) =>
           <li key={space.id} className="grid gap-3 border-t border-line py-6 sm:grid-cols-[1fr_auto] sm:items-baseline">
@@ -72,13 +69,13 @@ export function Campus() {
       <SensoryScene
         image={media.hammockLake}
         alt="An empty woven hammock between two palms above a calm lake at golden hour"
-        line="Your group will thank you"
-        emphasis="for the empty afternoons."
+        line={page.hammockLine}
+        emphasis={page.hammockEmphasis}
         foreground={media.reedsEdge} />
       
 
       <Section tone="deep">
-        <SectionIntro align="left" tone="dark" eyebrow="Included" title="You teach. We run everything else." />
+        <SectionIntro align="left" tone="dark" eyebrow={page.includedEyebrow} title={page.includedTitle} />
         <ul className="mt-16 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
           {hostingIncludes.map((item, index) =>
           <li key={item.title}>
@@ -96,17 +93,12 @@ export function Campus() {
           <div className="lg:col-span-5">
             <SectionIntro
               align="left"
-              eyebrow="Enquiry"
-              title="Tell us what you are planning"
-              note="A reply within a working day. Most teachers book nine to fourteen months ahead." />
+              eyebrow={page.enquiryEyebrow}
+              title={page.enquiryTitle}
+              note={page.enquiryNote} />
             
             <dl className="mt-10 flex flex-col gap-4 border-t border-line pt-8">
-              {[
-              { label: 'Group size', value: '14 – 24' },
-              { label: 'Minimum stay', value: '5 nights' },
-              { label: 'Best availability', value: 'May – September' },
-              { label: 'From Colombo', value: '2h 10m' }].
-              map((item) =>
+              {page.enquiryFacts.map((item) =>
               <div key={item.label} className="flex items-baseline justify-between gap-6">
                   <dt className="text-sm text-muted">{item.label}</dt>
                   <dd className="text-sm font-medium text-ink">{item.value}</dd>

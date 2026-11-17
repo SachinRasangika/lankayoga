@@ -1,19 +1,31 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { business, businessJsonLd } from '../data/business';
 import { homepageCopy, mergeHomepageCopy, type ContactCopy, type HomepageCopy } from '../data/homepageCopy';
+import { mergePageCopy, pageCopy, type PageCopy } from '../data/pageCopy';
 import { postToRow } from './cms';
 import { supabase } from './supabase';
 
 export const SITE_COPY_ID = 'site-homepage';
 
-interface SiteCopyValue {
+interface SiteDocument {
   copy: HomepageCopy;
+  pages: PageCopy;
+}
+
+interface SiteCopyValue extends SiteDocument {
   ready: boolean;
   saving: boolean;
   error: string | null;
   saved: boolean;
-  setCopy: (copy: HomepageCopy) => void;
-  save: (copy: HomepageCopy) => Promise<void>;
+  save: (next: SiteDocument) => Promise<void>;
+}
+
+function readSiteDocument(saved: unknown): SiteDocument {
+  if (saved && typeof saved === 'object' && 'homepage' in saved) {
+    const record = saved as { homepage?: unknown; pages?: unknown };
+    return { copy: mergeHomepageCopy(record.homepage), pages: mergePageCopy(record.pages) };
+  }
+  return { copy: mergeHomepageCopy(saved), pages: pageCopy };
 }
 
 const SiteCopyContext = createContext<SiteCopyValue | null>(null);
@@ -68,6 +80,7 @@ export function resolveBusiness(contact: ContactCopy) {
 
 export function SiteCopyProvider({ children }: { children: ReactNode }) {
   const [copy, setCopy] = useState<HomepageCopy>(homepageCopy);
+  const [pages, setPages] = useState<PageCopy>(pageCopy);
   const [ready, setReady] = useState(!supabase);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -87,9 +100,12 @@ export function SiteCopyProvider({ children }: { children: ReactNode }) {
           setError(loadError.message);
         } else if (data?.body) {
           try {
-            setCopy(mergeHomepageCopy(JSON.parse(data.body)));
+            const document = readSiteDocument(JSON.parse(data.body));
+            setCopy(document.copy);
+            setPages(document.pages);
           } catch {
             setCopy(homepageCopy);
+            setPages(pageCopy);
           }
         }
         setReady(true);
@@ -99,7 +115,7 @@ export function SiteCopyProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  async function save(next: HomepageCopy) {
+  async function save(next: SiteDocument) {
     if (!supabase) throw new Error('The database is not connected yet.');
     setSaving(true);
     setSaved(false);
@@ -110,7 +126,7 @@ export function SiteCopyProvider({ children }: { children: ReactNode }) {
       slug: SITE_COPY_ID,
       category: 'Website',
       excerpt: 'Hidden from the journal. This stores the homepage words.',
-      body: JSON.stringify(next),
+      body: JSON.stringify({ homepage: next.copy, pages: next.pages }),
       readingMinutes: 1,
       date: new Date().toISOString().slice(0, 10),
       author: 'Staff',
@@ -127,13 +143,14 @@ export function SiteCopyProvider({ children }: { children: ReactNode }) {
       setError(saveError.message);
       throw saveError;
     }
-    setCopy(next);
+    setCopy(next.copy);
+    setPages(next.pages);
     setSaved(true);
   }
 
   const value = useMemo<SiteCopyValue>(
-    () => ({ copy, ready, saving, error, saved, setCopy, save }),
-    [copy, ready, saving, error, saved]
+    () => ({ copy, pages, ready, saving, error, saved, save }),
+    [copy, pages, ready, saving, error, saved]
   );
 
   return <SiteCopyContext.Provider value={value}>{children}</SiteCopyContext.Provider>;
@@ -141,11 +158,11 @@ export function SiteCopyProvider({ children }: { children: ReactNode }) {
 
 const fallback: SiteCopyValue = {
   copy: homepageCopy,
+  pages: pageCopy,
   ready: true,
   saving: false,
   error: null,
   saved: false,
-  setCopy: () => undefined,
   save: async () => undefined
 };
 

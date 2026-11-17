@@ -8,29 +8,27 @@ import { useContent } from '../admin/content';
 import { media } from '../data/media';
 import { WeekSchedule } from '../components/programs/WeekSchedule';
 import { classPath } from '../utils/stays';
+import { useSiteCopy } from '../lib/siteCopy';
 
 export function Classes() {
   const { publishedClasses } = useContent();
+  const page = useSiteCopy().pages.classes;
 
   return (
     <>
       <PageHero
-        eyebrow="Classes"
-        title="Practice, with the sides open"
-        lede="Small groups in the lakefront shala. These hours are part of a stay — write to us if you want a private class."
+        eyebrow={page.eyebrow}
+        title={page.title}
+        lede={page.lede}
         image={media.heroShala}
         imageAlt="Open-air teak shala at the edge of the lake at sunrise"
-        meta={[
-          { label: 'Shala', value: 'Lakefront' },
-          { label: 'Week', value: 'Seven days' },
-          { label: 'First class', value: '6:45' }
-        ]} />
+        meta={page.facts} />
 
       <Section tone="base">
         <SectionIntro
           eyebrow={new Date().toLocaleDateString('en-US', { month: 'long' })}
-          title="The hours the shala is used"
-          note="Choose a day. Book a class to pick a date and a time." />
+          title={page.hoursTitle}
+          note={page.hoursNote} />
         <WeekSchedule />
         {publishedClasses.length === 0 ?
           <p className="mt-16 text-center text-sm text-muted">No classes are listed yet. Write to us if you want a private hour.</p> :
@@ -58,12 +56,12 @@ export function Classes() {
       <Section tone="warm">
         <div className="flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-xl">
-            <p className="eyebrow text-terracotta-600 dark:text-terracotta-300">Join a stay</p>
+            <p className="eyebrow text-terracotta-600 dark:text-terracotta-300">{page.closingEyebrow}</p>
             <h2 className="mt-3 font-display text-3xl font-light tracking-tight text-ink sm:text-[2.5rem]">
-              Classes are held for guests on a Yoga date
+              {page.closingTitle}
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-muted">
-              See the calendar, or ask about a private hour. Treatments sit next door, in the therapy wing.
+              {page.closingNote}
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
