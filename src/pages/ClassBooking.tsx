@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { CheckCircle2Icon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import { useContent } from '../admin/content';
-import { business } from '../data/business';
+import { useLiveBusiness } from '../lib/siteCopy';
 import { dateWeekday, timeSortKey } from '../data/weekSchedule';
 import { Button } from '../components/ui/Button';
 import { cn } from '../utils/cn';
@@ -29,6 +29,7 @@ function startOfToday(): Date {
 }
 
 export function ClassBooking() {
+  const { business } = useLiveBusiness();
   const { id } = useParams();
   const navigate = useNavigate();
   const { ready, publishedTimetable } = useContent();

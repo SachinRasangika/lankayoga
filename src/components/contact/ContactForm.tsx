@@ -2,7 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { AlertCircleIcon, CheckCircle2Icon, Loader2Icon } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { cn } from '../../utils/cn';
-import { business } from '../../data/business';
+import { useLiveBusiness } from '../../lib/siteCopy';
 import { sendInquiry } from '../../utils/sendInquiry';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
@@ -24,9 +24,9 @@ const emptyForm = {
 const fieldClass =
   'w-full min-h-12 rounded-xl border border-line bg-surface px-4 py-3 text-base text-ink placeholder:text-muted/70 transition-colors duration-200 focus:border-sage-400 focus:outline-none sm:min-h-0 sm:text-sm';
 
-const MAIL = business.email;
-
 export function ContactForm({ inquiryTopic = '' }: { inquiryTopic?: string }) {
+  const { business } = useLiveBusiness();
+  const mail = business.email;
   const [form, setForm] = useState({
     ...emptyForm,
     message: inquiryTopic ? `I would like to ask about ${inquiryTopic}.\n\n` : ''
@@ -79,7 +79,7 @@ export function ContactForm({ inquiryTopic = '' }: { inquiryTopic?: string }) {
           <h3 className="font-display text-2xl font-light text-ink">Sent</h3>
           <p className="mt-2 max-w-prose text-sm leading-relaxed text-muted">
             Your note is with us. We will reply within one working day, or you can write to{' '}
-            <a href={`mailto:${MAIL}`} className="text-ink underline underline-offset-4">{MAIL}</a>.
+            <a href={`mailto:${mail}`} className="text-ink underline underline-offset-4">{mail}</a>.
           </p>
         </div>
         <Button
@@ -170,7 +170,7 @@ export function ContactForm({ inquiryTopic = '' }: { inquiryTopic?: string }) {
 
       <div className="flex flex-wrap items-center justify-between gap-4 border-t border-line pt-5">
         <p className="max-w-xs text-xs leading-relaxed text-muted">
-          Goes to {MAIL}. We reply within one working day.
+          Goes to {mail}. We reply within one working day.
         </p>
         <Button type="submit" disabled={status === 'submitting'}>
           {status === 'submitting' ?

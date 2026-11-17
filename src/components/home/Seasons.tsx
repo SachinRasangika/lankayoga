@@ -4,16 +4,18 @@ import { Section } from '../layout/Section';
 import { SectionIntro } from '../layout/SectionIntro';
 import { seasons } from '../../data/seasons';
 import { cn } from '../../utils/cn';
+import { useSiteCopy } from '../../lib/siteCopy';
 
 const ease = [0.23, 1, 0.32, 1] as const;
 
 export function Seasons() {
   const [activeId, setActiveId] = useState(seasons[0].id);
   const active = seasons.find((season) => season.id === activeId) ?? seasons[0];
+  const { copy } = useSiteCopy();
 
   return (
     <Section tone="warm">
-      <SectionIntro eyebrow="When to come" title="The year has four moods" />
+      <SectionIntro eyebrow={copy.seasonsEyebrow} title={copy.seasonsTitle} />
 
       <div className="mt-14 grid gap-10 lg:grid-cols-12 lg:gap-16">
         <div className="relative h-[22rem] overflow-hidden rounded-[1.75rem] bg-sand-900 sm:h-[30rem] lg:col-span-7 lg:h-[34rem]">

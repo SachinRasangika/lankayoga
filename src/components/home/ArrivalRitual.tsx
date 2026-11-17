@@ -4,15 +4,17 @@ import { SectionIntro } from '../layout/SectionIntro';
 import { SoftImage } from '../motion/SoftImage';
 import { Reveal } from '../motion/Reveal';
 import { arrivalRitual } from '../../data/dayJourney';
+import { useSiteCopy } from '../../lib/siteCopy';
 
 export function ArrivalRitual() {
+  const { copy } = useSiteCopy();
   return (
     <Section tone="warm">
       <SectionIntro
-        eyebrow="The first day"
+        eyebrow={copy.arrivalEyebrow}
         title={
         <>
-            Nothing is asked of you <span className="italic">until you have rested</span>
+            {copy.arrivalTitle} <span className="italic">{copy.arrivalTitleItalic}</span>
           </>
         } />
       

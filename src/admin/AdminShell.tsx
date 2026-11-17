@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { BookOpenIcon, CalendarDaysIcon, Clock3Icon, DropletsIcon, LayoutDashboardIcon, LogOutIcon, SunIcon } from 'lucide-react';
+import { BookOpenIcon, CalendarDaysIcon, Clock3Icon, DropletsIcon, LayoutDashboardIcon, LogOutIcon, PenLineIcon, SunIcon } from 'lucide-react';
 import { cn } from '../utils/cn';
 import { useAuth } from './auth';
 import { useContent } from './content';
@@ -7,6 +7,7 @@ import { ThemeToggle } from '../components/layout/ThemeToggle';
 
 const nav = [
   { to: '/admin', label: 'Home', icon: LayoutDashboardIcon, end: true },
+  { to: '/admin/homepage', label: 'Homepage', icon: PenLineIcon, end: false },
   { to: '/admin/packages', label: 'Packages', icon: CalendarDaysIcon, end: false },
   { to: '/admin/classes', label: 'Classes', icon: SunIcon, end: false },
   { to: '/admin/timetable', label: 'Timetable', icon: Clock3Icon, end: false },

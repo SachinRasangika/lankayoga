@@ -17,7 +17,7 @@ import { PageHero } from '../components/layout/PageHero';
 import { Section } from '../components/layout/Section';
 import { Button } from '../components/ui/Button';
 import { programs, getProgram } from '../data/programs';
-import { business } from '../data/business';
+import { useLiveBusiness } from '../lib/siteCopy';
 import { sendInquiry } from '../utils/sendInquiry';
 import { media } from '../data/media';
 import { cn } from '../utils/cn';
@@ -40,6 +40,7 @@ const fieldClass =
 'w-full rounded-xl border border-line bg-surface px-4 py-3 text-sm text-ink placeholder:text-muted/70 transition-colors duration-200 focus:border-sage-400 focus:outline-none';
 
 export function BookStay() {
+  const { business } = useLiveBusiness();
   const [searchParams] = useSearchParams();
   const preset = getProgram(searchParams.get('program') ?? '');
   const [month, setMonth] = useState(() => startOfMonth(preset ? parseISO(preset.startDate) : new Date()));

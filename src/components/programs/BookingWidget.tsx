@@ -5,7 +5,7 @@ import { addDaysIso, formatDateRange, formatStayDates, todayIso } from '../../ut
 import { durationLabel } from '../../utils/labels';
 import { Button, ButtonHref } from '../ui/Button';
 import { cn } from '../../utils/cn';
-import { business } from '../../data/business';
+import { useLiveBusiness } from '../../lib/siteCopy';
 
 const fieldClass =
   'w-full min-h-12 rounded-xl border border-line bg-surface px-4 py-3 text-base text-ink placeholder:text-muted/70 transition-colors duration-200 focus:border-sage-400 focus:outline-none sm:min-h-0 sm:text-sm';
@@ -15,6 +15,7 @@ function digits(value: string): string {
 }
 
 export function BookingWidget({ program }: { program: Program }) {
+  const { business } = useLiveBusiness();
   const openDates = Boolean(program.openDates);
   const whatsapp = program.bookingWhatsapp || business.telephone;
   const email = program.bookingEmail || business.email;

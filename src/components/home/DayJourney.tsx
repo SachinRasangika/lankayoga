@@ -5,6 +5,7 @@ import { Section } from '../layout/Section';
 import { SectionIntro } from '../layout/SectionIntro';
 import { journeyMoments } from '../../data/dayJourney';
 import { cn } from '../../utils/cn';
+import { useSiteCopy } from '../../lib/siteCopy';
 
 const ease = [0.23, 1, 0.32, 1] as const;
 const HOLD_MS = 6500;
@@ -18,6 +19,7 @@ export function DayJourney() {
   const [paused, setPaused] = useState(false);
   const reduceMotion = useReducedMotion();
   const active = journeyMoments[index];
+  const { copy } = useSiteCopy();
 
   useEffect(() => {
     if (paused || reduceMotion) return undefined;
@@ -29,7 +31,7 @@ export function DayJourney() {
 
   return (
     <Section tone="base">
-      <SectionIntro align="left" eyebrow="One day, dark to dark" title="The rhythm you are stepping into" />
+      <SectionIntro align="left" eyebrow={copy.dayEyebrow} title={copy.dayTitle} />
 
       <div
         className="mt-14 grid gap-10 lg:grid-cols-12 lg:gap-16"

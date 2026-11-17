@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { media } from '../../data/media';
+import { useSiteCopy } from '../../lib/siteCopy';
 
 const ambience = [
 { id: 'water', label: 'Water against the jetty', time: 'All day', bars: [6, 14, 9, 18, 11] },
@@ -11,6 +12,7 @@ const ambience = [
 
 export function SoundOfPlace() {
   const reduceMotion = useReducedMotion();
+  const { copy } = useSiteCopy();
 
   return (
     <section className="relative isolate overflow-hidden bg-sand-900 text-sand-50">
@@ -24,12 +26,12 @@ export function SoundOfPlace() {
 
       <div className="relative mx-auto grid max-w-[1400px] gap-14 px-5 py-24 sm:px-8 lg:grid-cols-12 lg:gap-16 lg:py-32">
         <div className="flex flex-col gap-5 lg:col-span-5">
-          <p className="eyebrow text-sand-300">What you will hear</p>
+          <p className="eyebrow text-sand-300">{copy.soundEyebrow}</p>
           <h2 className="font-display text-[2.25rem] font-light leading-[1.1] tracking-tight sm:text-5xl">
-            There is no music <span className="italic text-sand-200">anywhere on the campus</span>
+            {copy.soundTitle} <span className="italic text-sand-200">{copy.soundTitleItalic}</span>
           </h2>
           <p className="max-w-sm text-[0.9375rem] leading-relaxed text-sand-100/80">
-            Only this, on a loop, for as long as you stay.
+            {copy.soundNote}
           </p>
         </div>
 

@@ -36,6 +36,8 @@ import { TimetableList } from './admin/TimetableList';
 import { TimetableEditor } from './admin/TimetableEditor';
 import { PublicLayout } from './admin/PublicLayout';
 import { Seo } from './components/seo/Seo';
+import { SiteCopyProvider } from './lib/siteCopy';
+import { HomepageEditor } from './admin/HomepageEditor';
 
 interface AppProps {
   defaultTheme?: 'light' | 'dark';
@@ -57,6 +59,7 @@ export function AppRoutes() {
             </RequireAuth>
           }>
           <Route index element={<AdminDashboard />} />
+          <Route path="homepage" element={<HomepageEditor />} />
           <Route path="packages" element={<PackageList />} />
           <Route path="packages/new" element={<PackageEditor />} />
           <Route path="packages/:id" element={<PackageEditor />} />
@@ -104,9 +107,11 @@ export function App({ defaultTheme = 'light', initialContent }: AppProps) {
     <ThemeProvider defaultTheme={defaultTheme}>
       <AuthProvider>
         <ContentProvider initialContent={initialContent}>
-          <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '') || '/'}>
-            <AppRoutes />
-          </BrowserRouter>
+          <SiteCopyProvider>
+            <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '') || '/'}>
+              <AppRoutes />
+            </BrowserRouter>
+          </SiteCopyProvider>
         </ContentProvider>
       </AuthProvider>
     </ThemeProvider>

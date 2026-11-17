@@ -4,15 +4,17 @@ import { SectionIntro } from '../layout/SectionIntro';
 import { ButtonLink } from '../ui/Button';
 import { media } from '../../data/media';
 import { useContent } from '../../admin/content';
+import { useSiteCopy } from '../../lib/siteCopy';
 
 export function QuietDates() {
   const { publishedPackages } = useContent();
   const upcoming = publishedPackages.slice(0, 3);
+  const { copy } = useSiteCopy();
 
   return (
     <Section tone="base" backdrop={media.palmCanopySky} backdropOpacity={0.12}>
       <div className="mx-auto max-w-3xl">
-        <SectionIntro eyebrow="Next dates" title="Small groups. They close early." />
+        <SectionIntro eyebrow={copy.datesEyebrow} title={copy.datesTitle} />
         <div className="mt-14 border-t border-line">
           {upcoming.map((program) =>
           <ProgramCard key={program.id} program={program} />

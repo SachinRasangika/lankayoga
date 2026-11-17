@@ -4,6 +4,7 @@ import { ArrowRightIcon } from 'lucide-react';
 import { Section } from '../layout/Section';
 import { SectionIntro } from '../layout/SectionIntro';
 import { media } from '../../data/media';
+import { useSiteCopy } from '../../lib/siteCopy';
 
 const paths = [
 {
@@ -23,11 +24,12 @@ const paths = [
 
 
 export function TwoPaths() {
+  const { copy } = useSiteCopy();
   return (
     <Section tone="base">
-      <SectionIntro eyebrow="Two reasons people come" title="Rest, or be looked after" />
+      <SectionIntro eyebrow={copy.pathsEyebrow} title={copy.pathsTitle} />
       <div className="mt-14 grid gap-4 sm:gap-6 lg:grid-cols-2">
-        {paths.map((path) =>
+        {paths.map((path, index) =>
         <Link
           key={path.to}
           to={path.to}
@@ -41,9 +43,9 @@ export function TwoPaths() {
             <div className="absolute inset-0 bg-sand-900/40 transition-colors duration-300 ease-calm group-hover:bg-sand-900/50" />
             <div className="relative flex flex-col gap-3">
               <h3 className="font-display text-4xl font-light leading-none tracking-tight text-white sm:text-5xl">
-                {path.label}
+                {copy.paths[index]?.label ?? path.label}
               </h3>
-              <p className="max-w-xs text-sm text-sand-100/90">{path.line}</p>
+              <p className="max-w-xs text-sm text-sand-100/90">{copy.paths[index]?.line ?? path.line}</p>
               <span className="mt-3 inline-flex items-center gap-2 text-[0.6875rem] uppercase tracking-widest text-white">
                 Explore
                 <ArrowRightIcon className="h-3.5 w-3.5 transition-transform duration-200 ease-calm group-hover:translate-x-1" />

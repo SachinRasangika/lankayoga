@@ -388,7 +388,7 @@ export function ContentProvider({ children, initialContent }: {children: ReactNo
 
     setContent({
       packages: ((packageResult.data ?? []) as PackageRow[]).map((row) => withPackageDefaults(packageFromRow(row))),
-      posts: ((postResult.data ?? []) as PostRow[]).map((row) => withPostDefaults(postFromRow(row))),
+      posts: ((postResult.data ?? []) as PostRow[]).map((row) => withPostDefaults(postFromRow(row))).filter((post) => post.id !== 'site-homepage' && post.slug !== 'site-homepage'),
       classes: ((classResult.data ?? []) as ClassRow[]).map((row) => withClassDefaults(classFromRow(row))),
       treatments: ((treatmentResult.data ?? []) as TreatmentRow[]).map((row) => withTreatmentDefaults(treatmentFromRow(row))),
       timetable: ((timetableResult.data ?? []) as TimetableRow[]).map((row) => timetableFromRow(row))

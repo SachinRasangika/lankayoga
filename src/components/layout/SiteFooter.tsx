@@ -4,11 +4,12 @@ import { CheckIcon, LeafIcon } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { footerNav } from '../../data/nav';
 import { BrandMark } from './BrandMark';
-import { business, businessAddressLine } from '../../data/business';
+import { useLiveBusiness } from '../../lib/siteCopy';
 import { sendInquiry } from '../../utils/sendInquiry';
 
 
 export function SiteFooter() {
+  const { business, addressLine } = useLiveBusiness();
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [subscribeError, setSubscribeError] = useState('');
@@ -39,7 +40,7 @@ export function SiteFooter() {
               {business.name} — a yoga retreat in Hikkaduwa, Sri Lanka.
             </p>
             <address className="flex max-w-sm flex-col gap-1.5 text-sm not-italic text-ink">
-              <span>{businessAddressLine}</span>
+              <span>{addressLine}</span>
               <a href={`tel:${business.telephone}`} className="underline underline-offset-4 hover:text-sage-700">
                 {business.telephoneDisplay}
               </a>

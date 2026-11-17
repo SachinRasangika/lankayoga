@@ -3,11 +3,13 @@ import { Section } from '../layout/Section';
 import { SectionIntro } from '../layout/SectionIntro';
 import { Reveal } from '../motion/Reveal';
 import { senses } from '../../data/dayJourney';
+import { useSiteCopy } from '../../lib/siteCopy';
 
 export function SenseCards() {
+  const { copy } = useSiteCopy();
   return (
     <Section tone="base">
-      <SectionIntro eyebrow="Four senses" title="What stays with you" />
+      <SectionIntro eyebrow={copy.sensesEyebrow} title={copy.sensesTitle} />
 
       <ul className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {senses.map((sense, index) =>

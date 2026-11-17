@@ -3,24 +3,19 @@ import { PageHero } from '../components/layout/PageHero';
 import { Section } from '../components/layout/Section';
 import { ContactForm } from '../components/contact/ContactForm';
 import { media } from '../data/media';
-import {
-  business,
-  businessAddressLine,
-  businessMapsEmbedUrl,
-  businessMapsUrl
-} from '../data/business';
-
-const details: { label: string; value: string; href?: string; external?: boolean }[] = [
-  { label: 'Name', value: business.name },
-  { label: 'Address', value: businessAddressLine, href: businessMapsUrl, external: true },
-  { label: 'Phone', value: business.telephoneDisplay, href: `tel:${business.telephone}` },
-  { label: 'Write', value: business.email, href: `mailto:${business.email}` },
-  { label: 'Reply', value: 'Within one working day' }
-];
+import { useLiveBusiness } from '../lib/siteCopy';
 
 export function Contact() {
   const [searchParams] = useSearchParams();
   const topic = searchParams.get('topic') ?? '';
+  const { business, addressLine, mapsUrl, mapsEmbedUrl } = useLiveBusiness();
+  const details: { label: string; value: string; href?: string; external?: boolean }[] = [
+    { label: 'Name', value: business.name },
+    { label: 'Address', value: addressLine, href: mapsUrl, external: true },
+    { label: 'Phone', value: business.telephoneDisplay, href: `tel:${business.telephone}` },
+    { label: 'Write', value: business.email, href: `mailto:${business.email}` },
+    { label: 'Reply', value: 'Within one working day' }
+  ];
 
   return (
     <>
@@ -76,7 +71,7 @@ export function Contact() {
         <div className="overflow-hidden rounded-3xl border border-line bg-raised">
           <iframe
             title="Map of Lanka Yoga & Ayurveda Resort in Hikkaduwa"
-            src={businessMapsEmbedUrl}
+            src={mapsEmbedUrl}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             className="h-[22rem] w-full border-0 sm:h-[28rem]"

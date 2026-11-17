@@ -3,6 +3,7 @@ import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } fr
 import { ArrowDownIcon, ArrowRightIcon } from 'lucide-react';
 import { ButtonLink } from '../ui/Button';
 import { heroServices } from '../../data/services';
+import { useSiteCopy } from '../../lib/siteCopy';
 import { cn } from '../../utils/cn';
 
 const ease = [0.23, 1, 0.32, 1] as const;
@@ -13,17 +14,22 @@ export function HeroSlides() {
   const reduceMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
+  const { copy } = useSiteCopy();
+  const slides = heroServices.map((service) => {
+    const text = copy.slides.find((item) => item.id === service.id);
+    return text ? { ...service, ...text } : service;
+  });
 
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
   const imageY = useTransform(scrollYProgress, [0, 1], ['0%', '16%']);
   const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '-12%']);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
-  const active = heroServices[index];
+  const active = slides[index] ?? slides[0];
 
   const advance = useCallback(() => {
-    setIndex((current) => (current + 1) % heroServices.length);
-  }, []);
+    setIndex((current) => (current + 1) % slides.length);
+  }, [slides.length]);
 
   useEffect(() => {
     if (paused || reduceMotion) return undefined;
@@ -65,7 +71,7 @@ export function HeroSlides() {
         style={reduceMotion ? undefined : { y: contentY, opacity: contentOpacity }}
         className="relative mx-auto flex h-full max-w-[1400px] flex-col justify-end px-5 pb-10 pt-32 sm:px-8 sm:pb-14">
         
-        <p className="eyebrow text-sand-200">Lanka Yoga &amp; Ayurveda Resort · Hikkaduwa</p>
+        <p className="eyebrow text-sand-200">{copy.heroLabel}</p>
 
         <div className="mt-6 min-h-[19rem] sm:min-h-[17rem] lg:min-h-[16rem]">
           <AnimatePresence mode="wait">
@@ -95,7 +101,7 @@ export function HeroSlides() {
 
         <div className="mt-8 flex flex-col gap-5 border-t border-white/20 pt-5 sm:flex-row sm:items-center sm:justify-between">
           <ul className="flex flex-wrap gap-x-6 gap-y-3 sm:gap-x-8">
-            {heroServices.map((service, serviceIndex) => {
+            {slides.map((service, serviceIndex) => {
               const selected = serviceIndex === index;
               return (
                 <li key={service.id} className="flex flex-col gap-2">

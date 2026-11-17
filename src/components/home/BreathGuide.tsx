@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { PauseIcon, PlayIcon } from 'lucide-react';
+import { useSiteCopy } from '../../lib/siteCopy';
 
 type Phase = 'inhale' | 'hold' | 'exhale';
 
@@ -17,6 +18,7 @@ export function BreathGuide() {
   const timer = useRef<number | undefined>(undefined);
   const reduceMotion = useReducedMotion();
   const step = sequence[index];
+  const { copy } = useSiteCopy();
 
   useEffect(() => {
     if (!running) return undefined;
@@ -36,12 +38,12 @@ export function BreathGuide() {
     <section className="relative isolate overflow-hidden bg-sage-900 text-sand-50">
       <div className="mx-auto grid max-w-[1400px] items-center gap-14 px-5 py-24 sm:px-8 lg:grid-cols-2 lg:gap-20 lg:py-32">
         <div className="flex flex-col gap-6">
-          <p className="eyebrow text-sage-300">Before anything else</p>
+          <p className="eyebrow text-sage-300">{copy.breathEyebrow}</p>
           <h2 className="max-w-xl font-display text-[2.25rem] font-light leading-[1.08] tracking-tight sm:text-5xl">
-            Take one breath <span className="italic text-sand-200">with us</span>
+            {copy.breathTitle} <span className="italic text-sand-200">{copy.breathTitleItalic}</span>
           </h2>
           <p className="max-w-xs text-[0.9375rem] leading-relaxed text-sage-200">
-            Four in. Four held. Six out. The same ratio we teach at 06:15.
+            {copy.breathNote}
           </p>
           <div className="flex items-center gap-4">
             <button

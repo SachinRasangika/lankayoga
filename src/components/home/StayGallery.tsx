@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { MoveHorizontalIcon } from 'lucide-react';
 import { media } from '../../data/media';
 import { cn } from '../../utils/cn';
+import { useSiteCopy } from '../../lib/siteCopy';
 
 const frames = [
 { src: media.hammockLake, alt: 'An empty woven hammock between two palms above a calm lake at golden hour', caption: 'The hour nobody schedules' },
@@ -19,14 +20,15 @@ const frames = [
 
 export function StayGallery() {
   const [dragged, setDragged] = useState(false);
+  const { copy } = useSiteCopy();
 
   return (
     <section className="overflow-hidden bg-surface py-24 sm:py-32">
       <div className="mx-auto flex max-w-[1400px] flex-col gap-5 px-5 sm:px-8">
-        <p className="eyebrow text-terracotta-600 dark:text-terracotta-300">Drift through</p>
+        <p className="eyebrow text-terracotta-600 dark:text-terracotta-300">{copy.galleryEyebrow}</p>
         <div className="flex flex-wrap items-end justify-between gap-4">
           <h2 className="max-w-lg font-display text-3xl font-light leading-[1.1] tracking-tight text-ink sm:text-[2.75rem]">
-            Ten quiet corners of the campus
+            {copy.galleryTitle}
           </h2>
           {!dragged ?
           <p className="flex items-center gap-2 text-[0.6875rem] uppercase tracking-widest text-muted">

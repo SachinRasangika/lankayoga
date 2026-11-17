@@ -21,8 +21,10 @@ import { ButtonLink } from '../components/ui/Button';
 import { Reveal } from '../components/motion/Reveal';
 import { media } from '../data/media';
 import { ecologyCommitments } from '../data/venues';
+import { useSiteCopy } from '../lib/siteCopy';
 
 export function Home() {
+  const { copy } = useSiteCopy();
   return (
     <>
       <HeroSlides />
@@ -31,8 +33,8 @@ export function Home() {
       <SensoryScene
         image={media.mistHills}
         alt="Layered misty hills at dawn"
-        line="The day starts before you do."
-        emphasis="Let it."
+        line={copy.dawnLine}
+        emphasis={copy.dawnEmphasis}
         foreground={media.reedsEdge} />
       
 
@@ -58,9 +60,9 @@ export function Home() {
           <div className="lg:col-span-4">
             <SectionIntro
               align="left"
-              eyebrow="Before you fly"
-              title="Stand in the shala from where you are"
-              note="Drag to look around. Four spaces." />
+              eyebrow={copy.tourEyebrow}
+              title={copy.tourTitle}
+              note={copy.tourNote} />
             
             <ButtonLink to="/contact" variant="secondary" size="sm" className="mt-8">
               Contact us
@@ -77,16 +79,16 @@ export function Home() {
       <SensoryScene
         image={media.nightLamps}
         alt="Clay oil lamps glowing along a wooden jetty at night"
-        line="Lamps at dusk."
-        emphasis="Quiet before nine." />
+        line={copy.duskLine}
+        emphasis={copy.duskEmphasis} />
       
 
       <Section tone="deep" backdrop={media.gardenHerbs} backdropOpacity={0.14}>
         <SectionIntro
           align="left"
           tone="dark"
-          eyebrow="Ecology"
-          title="The campus gives the land back more than it takes" />
+          eyebrow={copy.ecologyEyebrow}
+          title={copy.ecologyTitle} />
         
         <dl className="mt-16 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
           {ecologyCommitments.map((item, index) =>
@@ -103,7 +105,7 @@ export function Home() {
       <Section tone="raised" size="md">
         <div className="flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
           <h2 className="max-w-xl font-display text-3xl font-light leading-[1.1] tracking-tight text-ink sm:text-[2.5rem]">
-            Ready to come? Write to us.
+            {copy.closingTitle}
           </h2>
           <ButtonLink to="/contact">
             Contact us
