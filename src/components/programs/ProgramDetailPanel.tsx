@@ -5,7 +5,7 @@ import { Program } from '../../types';
 import { formatPrice, formatStayDates } from '../../utils/format';
 import { normalizeGallery } from '../../utils/gallery';
 import { durationLabel, focusLabels, kindLabels } from '../../utils/labels';
-import { Button } from '../ui/Button';
+import { ButtonLink } from '../ui/Button';
 
 interface ProgramDetailPanelProps {
   program: Program | null;
@@ -123,10 +123,12 @@ export function ProgramDetailPanel({ program, onClose }: ProgramDetailPanelProps
                 <p className="text-xs text-muted">{program.spotsLeft} of {program.capacity} places remaining</p>
               </div>
               <div className="flex gap-2">
-                <Button variant="secondary" size="sm" onClick={onClose}>
+                <ButtonLink to={`/contact?topic=${encodeURIComponent(program.title)}`} variant="secondary" size="sm">
                   Ask a question
-                </Button>
-                <Button size="sm">Reserve a place</Button>
+                </ButtonLink>
+                <ButtonLink to={`/book?program=${program.id}`} size="sm">
+                  Reserve a place
+                </ButtonLink>
               </div>
             </div>
           </motion.aside>
