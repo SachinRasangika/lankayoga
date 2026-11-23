@@ -3,6 +3,7 @@ import { StaticRouter } from 'react-router-dom/server';
 import { AppRoutes } from './App';
 import { AuthProvider } from './admin/auth';
 import { ContentProvider, type StoredContent } from './admin/content';
+import { SiteSectionsProvider } from './admin/customize/store';
 import { ThemeProvider } from './contexts/ThemeContext';
 import {
   classFromRow,
@@ -59,9 +60,11 @@ export function renderRoute(pathname: string, content: StoredContent): string {
     <ThemeProvider defaultTheme="light">
       <AuthProvider>
         <ContentProvider initialContent={content}>
-          <StaticRouter location={pathname}>
-            <AppRoutes />
-          </StaticRouter>
+          <SiteSectionsProvider>
+            <StaticRouter location={pathname}>
+              <AppRoutes />
+            </StaticRouter>
+          </SiteSectionsProvider>
         </ContentProvider>
       </AuthProvider>
     </ThemeProvider>

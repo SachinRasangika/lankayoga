@@ -7,6 +7,7 @@ import { ButtonLink } from '../ui/Button';
 import { isImmersivePath, publicNav } from '../../data/nav';
 import { BrandMark } from './BrandMark';
 import { ThemeToggle } from './ThemeToggle';
+import { useCustomizeMode } from '../../admin/customize/CustomizeFrame';
 
 function linkClass(overImage: boolean, isActive: boolean) {
   return cn(
@@ -40,7 +41,8 @@ export function SiteHeader() {
   }, []);
 
   const pathname = location.pathname.replace(/^\/admin\/customize(?=\/|$)/, '') || '/';
-  const overImage = isImmersivePath(pathname) && !scrolled && !open;
+  const customizing = useCustomizeMode();
+  const overImage = isImmersivePath(pathname) && !scrolled && !open && !customizing;
 
   return (
     <header className={cn(

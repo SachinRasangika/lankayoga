@@ -65,8 +65,8 @@ export function CustomizeFrame({ children }: { children?: ReactNode }) {
 
   return (
     <div className="min-h-dvh bg-surface">
-      <div className="fixed inset-x-0 top-0 z-[90] flex h-[3.25rem] items-center gap-3 border-b border-sand-700 bg-sand-950 px-3 text-sand-50 sm:px-5">
-        <p className="shrink-0 text-[0.6875rem] font-medium uppercase tracking-widest text-sand-200">Customize mode</p>
+      <div className="fixed inset-x-0 top-0 z-[90] flex h-[3.25rem] items-center gap-3 border-b-4 border-terracotta-900 bg-terracotta-700 px-3 text-white shadow-lg sm:px-5">
+        <p className="shrink-0 text-[0.6875rem] font-semibold uppercase tracking-widest text-white">Customize mode</p>
         <nav className="no-scrollbar flex min-w-0 flex-1 gap-1 overflow-x-auto" aria-label="Pages to customize">
           {customizePages.map((page) => {
             const active = page.to === '/' ? publicPath === '/' : publicPath === page.to || publicPath.startsWith(`${page.to}/`);
@@ -75,7 +75,7 @@ export function CustomizeFrame({ children }: { children?: ReactNode }) {
                 key={page.to}
                 type="button"
                 onClick={() => navigate(customizeHref(page.to))}
-                className={active ? 'shrink-0 rounded-full bg-sand-50 px-3 py-1 text-xs font-medium text-sand-950' : 'shrink-0 rounded-full px-3 py-1 text-xs font-medium text-sand-200 hover:bg-white/10 hover:text-white'}>
+                className={active ? 'shrink-0 rounded-full bg-white px-3 py-1 text-xs font-semibold text-terracotta-800 shadow-sm' : 'shrink-0 rounded-full px-3 py-1 text-xs font-medium text-white/90 hover:bg-white/20 hover:text-white'}>
                 {page.label}
               </button>
             );
@@ -84,7 +84,7 @@ export function CustomizeFrame({ children }: { children?: ReactNode }) {
         <button
           type="button"
           onClick={() => navigate('/admin')}
-          className="shrink-0 rounded-full border border-white/20 px-3 py-1 text-xs font-medium text-sand-50 hover:bg-white/10">
+          className="shrink-0 rounded-full border border-white/70 bg-white/15 px-3 py-1 text-xs font-semibold text-white hover:bg-white hover:text-terracotta-800">
           Exit
         </button>
       </div>
