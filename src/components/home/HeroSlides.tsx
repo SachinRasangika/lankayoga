@@ -2,13 +2,18 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { ArrowDownIcon, ArrowRightIcon } from 'lucide-react';
 import { ButtonLink } from '../ui/Button';
-import { heroServices } from '../../data/services';
+import { EditableSection } from '../../admin/customize/EditableSection';
+import { useCustomizeMode } from '../../admin/customize/CustomizeFrame';
+import { useSection } from '../../admin/customize/store';
 import { cn } from '../../utils/cn';
 
 const ease = [0.23, 1, 0.32, 1] as const;
 const SLIDE_MS = 7000;
 
 export function HeroSlides() {
+  const copy = useSection('home.hero');
+  const customizing = useCustomizeMode();
+  const slides = copy.slides;
   const ref = useRef<HTMLElement>(null);
   const reduceMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
@@ -19,11 +24,11 @@ export function HeroSlides() {
   const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '-12%']);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
-  const active = heroServices[index];
+  const active = slides[index] ?? slides[0];
 
   const advance = useCallback(() => {
-    setIndex((current) => (current + 1) % heroServices.length);
-  }, []);
+    setIndex((current) => (current + 1) % Math.max(slides.length, 1));
+  }, [slides.length]);
 
   useEffect(() => {
     if (paused || reduceMotion) return undefined;
@@ -31,7 +36,17 @@ export function HeroSlides() {
     return () => window.clearTimeout(timer);
   }, [index, paused, reduceMotion, advance]);
 
+  if (!active) {
+    if (!customizing) return null;
+    return (
+      <EditableSection id="home.hero">
+        <section className="bg-sand-900 px-5 py-24 text-sand-100">This section has no slides.</section>
+      </EditableSection>
+    );
+  }
+
   return (
+    <EditableSection id="home.hero">
     <section
       ref={ref}
       aria-label="What we offer"
@@ -65,7 +80,7 @@ export function HeroSlides() {
         style={reduceMotion ? undefined : { y: contentY, opacity: contentOpacity }}
         className="relative mx-auto flex h-full max-w-[1400px] flex-col justify-end px-5 pb-10 pt-32 sm:px-8 sm:pb-14">
         
-        <p className="eyebrow text-sand-200">Lanka Yoga &amp; Ayurveda · Kurunegala, Sri Lanka</p>
+        <p className="eyebrow text-sand-200">{copy.kicker}</p>
 
         <div className="mt-6 min-h-[19rem] sm:min-h-[17rem] lg:min-h-[16rem]">
           <AnimatePresence mode="wait">
@@ -95,7 +110,7 @@ export function HeroSlides() {
 
         <div className="mt-8 flex flex-col gap-5 border-t border-white/20 pt-5 sm:flex-row sm:items-center sm:justify-between">
           <ul className="flex flex-wrap gap-x-6 gap-y-3 sm:gap-x-8">
-            {heroServices.map((service, serviceIndex) => {
+            {slides.map((service, serviceIndex) => {
               const selected = serviceIndex === index;
               return (
                 <li key={service.id} className="flex flex-col gap-2">
@@ -138,10 +153,11 @@ export function HeroSlides() {
               
               <ArrowDownIcon className="h-4 w-4" />
             </motion.span>
-            <span className="text-[0.6875rem] uppercase tracking-widest">Scroll — breathe first</span>
+            <span className="text-[0.6875rem] uppercase tracking-widest">{copy.scrollHint}</span>
           </div>
         </div>
       </motion.div>
-    </section>);
+    </section>
+    </EditableSection>);
 
 }

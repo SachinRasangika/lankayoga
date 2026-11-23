@@ -1,21 +1,26 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { JournalCard } from '../components/journal/JournalCard';
-import { journalCategories, journalPosts } from '../data/journal';
-import { media } from '../data/media';
+import { useContent } from '../admin/content';
+import { EditableSection } from '../admin/customize/EditableSection';
+import { useSection } from '../admin/customize/store';
 import { cn } from '../utils/cn';
 
 export function Journal() {
+  const { publishedPosts } = useContent();
+  const hero = useSection('page.journal');
   const [category, setCategory] = useState('All');
-  const filtered = category === 'All' ? journalPosts : journalPosts.filter((post) => post.category === category);
+  const journalCategories = ['All', ...Array.from(new Set(publishedPosts.map((post) => post.category)))];
+  const filtered = category === 'All' ? publishedPosts : publishedPosts.filter((post) => post.category === category);
   const [featured, ...rest] = filtered;
 
   return (
     <>
+      <EditableSection id="page.journal">
       <section className="relative isolate flex h-[42svh] min-h-[17rem] items-end overflow-hidden bg-sand-900">
         <motion.img
-          src={media.stoneCarving}
-          alt="A weathered stone lotus medallion with moss in its crevices"
+          src={hero.image}
+          alt={hero.imageAlt}
           initial={{ scale: 1.05, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 18, ease: 'linear' }}
@@ -23,12 +28,13 @@ export function Journal() {
         
         <div className="absolute inset-0 bg-sand-900/45" />
         <div className="relative mx-auto w-full max-w-[1400px] px-5 pb-16 sm:px-8 sm:pb-20">
-          <p className="eyebrow text-sand-200">Journal</p>
+          <p className="eyebrow text-sand-200">{hero.eyebrow}</p>
           <h1 className="mt-4 max-w-2xl font-display text-[2.5rem] font-light leading-[1.04] tracking-tight text-white sm:text-6xl">
-            Slow notes from the campus
+            {hero.title}
           </h1>
         </div>
       </section>
+      </EditableSection>
 
       <div className="mx-auto max-w-[1400px] px-5 py-20 sm:px-8 sm:py-24">
         <div

@@ -3,8 +3,10 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { AudioLinesIcon } from 'lucide-react';
 import { Section } from '../layout/Section';
 import { SectionIntro } from '../layout/SectionIntro';
-import { journeyMoments } from '../../data/dayJourney';
 import { cn } from '../../utils/cn';
+import { EditableSection } from '../../admin/customize/EditableSection';
+import { useCustomizeMode } from '../../admin/customize/CustomizeFrame';
+import { useSection } from '../../admin/customize/store';
 
 const ease = [0.23, 1, 0.32, 1] as const;
 const HOLD_MS = 6500;
@@ -14,22 +16,35 @@ const HOLD_MS = 6500;
  * the instant you touch it, so nothing depends on scroll position.
  */
 export function DayJourney() {
+  const copy = useSection('home.day');
+  const customizing = useCustomizeMode();
+  const moments = copy.moments;
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const reduceMotion = useReducedMotion();
-  const active = journeyMoments[index];
+  const active = moments[index] ?? moments[0];
 
   useEffect(() => {
-    if (paused || reduceMotion) return undefined;
+    if (paused || reduceMotion || moments.length === 0) return undefined;
     const timer = window.setTimeout(() => {
-      setIndex((current) => (current + 1) % journeyMoments.length);
+      setIndex((current) => (current + 1) % moments.length);
     }, HOLD_MS);
     return () => window.clearTimeout(timer);
-  }, [index, paused, reduceMotion]);
+  }, [index, paused, reduceMotion, moments.length]);
+
+  if (!active) {
+    if (!customizing) return null;
+    return (
+      <EditableSection id="home.day">
+        <section className="bg-surface px-5 py-24 text-muted">This section has no moments.</section>
+      </EditableSection>
+    );
+  }
 
   return (
+    <EditableSection id="home.day">
     <Section tone="base">
-      <SectionIntro align="left" eyebrow="One day, dark to dark" title="The rhythm you are stepping into" />
+      <SectionIntro align="left" eyebrow={copy.eyebrow} title={copy.title} />
 
       <div
         className="mt-14 grid gap-10 lg:grid-cols-12 lg:gap-16"
@@ -79,7 +94,7 @@ export function DayJourney() {
           </AnimatePresence>
 
           <ol className="mt-8 flex flex-col border-t border-line">
-            {journeyMoments.map((moment, momentIndex) => {
+            {moments.map((moment, momentIndex) => {
               const selected = momentIndex === index;
               return (
                 <li key={moment.id} className="border-b border-line">
@@ -127,6 +142,7 @@ export function DayJourney() {
           </ol>
         </div>
       </div>
-    </Section>);
+    </Section>
+    </EditableSection>);
 
 }

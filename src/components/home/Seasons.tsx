@@ -2,18 +2,33 @@ import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Section } from '../layout/Section';
 import { SectionIntro } from '../layout/SectionIntro';
-import { seasons } from '../../data/seasons';
 import { cn } from '../../utils/cn';
+import { EditableSection } from '../../admin/customize/EditableSection';
+import { useCustomizeMode } from '../../admin/customize/CustomizeFrame';
+import { useSection } from '../../admin/customize/store';
 
 const ease = [0.23, 1, 0.32, 1] as const;
 
 export function Seasons() {
-  const [activeId, setActiveId] = useState(seasons[0].id);
-  const active = seasons.find((season) => season.id === activeId) ?? seasons[0];
+  const copy = useSection('home.seasons');
+  const customizing = useCustomizeMode();
+  const items = copy.items;
+  const [activeId, setActiveId] = useState(items[0]?.id ?? '');
+  const active = items.find((season) => season.id === activeId) ?? items[0];
+
+  if (!active) {
+    if (!customizing) return null;
+    return (
+      <EditableSection id="home.seasons">
+        <section className="bg-warm px-5 py-24 text-muted">This section has no seasons.</section>
+      </EditableSection>
+    );
+  }
 
   return (
+    <EditableSection id="home.seasons">
     <Section tone="warm">
-      <SectionIntro eyebrow="When to come" title="The year has four moods" />
+      <SectionIntro eyebrow={copy.eyebrow} title={copy.title} />
 
       <div className="mt-14 grid gap-10 lg:grid-cols-12 lg:gap-16">
         <div className="relative h-[22rem] overflow-hidden rounded-[1.75rem] bg-sand-900 sm:h-[30rem] lg:col-span-7 lg:h-[34rem]">
@@ -37,7 +52,7 @@ export function Seasons() {
 
         <div className="flex flex-col lg:col-span-5">
           <ul role="tablist" aria-label="Seasons" className="flex flex-col">
-            {seasons.map((season) => {
+            {items.map((season) => {
               const selected = season.id === active.id;
               return (
                 <li key={season.id} className="border-t border-line last:border-b">
@@ -86,6 +101,7 @@ export function Seasons() {
           </motion.div>
         </div>
       </div>
-    </Section>);
+    </Section>
+    </EditableSection>);
 
 }

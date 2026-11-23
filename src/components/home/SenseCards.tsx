@@ -2,15 +2,18 @@ import React from 'react';
 import { Section } from '../layout/Section';
 import { SectionIntro } from '../layout/SectionIntro';
 import { Reveal } from '../motion/Reveal';
-import { senses } from '../../data/dayJourney';
+import { EditableSection } from '../../admin/customize/EditableSection';
+import { useSection } from '../../admin/customize/store';
 
 export function SenseCards() {
+  const copy = useSection('home.senses');
   return (
+    <EditableSection id="home.senses">
     <Section tone="base">
-      <SectionIntro eyebrow="Four senses" title="What stays with you" />
+      <SectionIntro eyebrow={copy.eyebrow} title={copy.title} />
 
       <ul className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {senses.map((sense, index) =>
+        {copy.items.map((sense, index) =>
         <li key={sense.id}>
             <Reveal delay={index * 0.05}>
               <article className="group relative isolate flex h-72 flex-col justify-end overflow-hidden rounded-[1.75rem] border border-line bg-raised p-6 lg:h-80">
@@ -34,6 +37,7 @@ export function SenseCards() {
           </li>
         )}
       </ul>
-    </Section>);
+    </Section>
+    </EditableSection>);
 
 }

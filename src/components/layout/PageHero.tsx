@@ -57,6 +57,7 @@ export function PageHero({ eyebrow, title, lede, image, imageAlt, meta }: PageHe
           
           {title}
         </motion.h1>
+        {lede ?
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -64,7 +65,8 @@ export function PageHero({ eyebrow, title, lede, image, imageAlt, meta }: PageHe
           className="max-w-prose text-base leading-relaxed text-sand-100/90">
           
           {lede}
-        </motion.p>
+        </motion.p> :
+        null}
         {meta?.length ?
         <motion.dl
           initial={{ opacity: 0, y: 16 }}

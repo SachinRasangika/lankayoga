@@ -1,4 +1,4 @@
-import { DoshaProfile, Therapy } from '../types';
+import { DoshaProfile } from '../types';
 
 export const doshaProfiles: DoshaProfile[] = [
 {
@@ -30,51 +30,6 @@ export const doshaProfiles: DoshaProfile[] = [
   eat: ['Light, warm, well-spiced food', 'Bitter greens and legumes', 'Ginger and black pepper'],
   avoid: ['Dairy and heavy sweets', 'Daytime sleeping', 'Large evening meals'],
   therapies: ['Udvartana', 'Nasya', 'Vamana']
-}];
-
-
-export const therapies: Therapy[] = [
-{
-  id: 'abhyanga',
-  name: 'Abhyanga',
-  duration: '60 min',
-  doshas: ['vata', 'kapha'],
-  description: 'Warm oil, four hands, one rhythm. The foundation of most protocols.'
-},
-{
-  id: 'shirodhara',
-  name: 'Shirodhara',
-  duration: '45 min',
-  doshas: ['vata', 'pitta'],
-  description: 'A thread of oil poured across the forehead. For a mind that will not stop.'
-},
-{
-  id: 'pizhichil',
-  name: 'Pizhichil',
-  duration: '75 min',
-  doshas: ['vata', 'pitta'],
-  description: 'Warm oil squeezed from cloth, head to foot. For joints and nerves.'
-},
-{
-  id: 'udvartana',
-  name: 'Udvartana',
-  duration: '60 min',
-  doshas: ['kapha'],
-  description: 'Herbal powder instead of oil, worked upward. Wakes a heavy body.'
-},
-{
-  id: 'nasya',
-  name: 'Nasya',
-  duration: '30 min',
-  doshas: ['kapha', 'vata'],
-  description: 'Medicated oil through the nose after steam. Clears the head.'
-},
-{
-  id: 'takradhara',
-  name: 'Takradhara',
-  duration: '45 min',
-  doshas: ['pitta'],
-  description: 'Cool medicated buttermilk, poured slowly. Draws heat down.'
 }];
 
 

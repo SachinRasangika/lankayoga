@@ -2,14 +2,9 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CheckIcon, LeafIcon } from 'lucide-react';
 import { Button } from '../ui/Button';
+import { footerNav } from '../../data/nav';
 import { BrandMark } from './BrandMark';
-
-const links = [
-{ to: '/teacher-training', label: 'Teacher Training' },
-{ to: '/ayurveda', label: 'Ayurveda' },
-{ to: '/retreats', label: 'Retreats' },
-{ to: '/campus', label: 'Campus & Hire' },
-{ to: '/journal', label: 'Journal' }];
+import { business, businessAddressLine } from '../../data/business';
 
 
 export function SiteFooter() {
@@ -27,13 +22,19 @@ export function SiteFooter() {
       <div className="mx-auto flex max-w-[1400px] flex-col gap-16 px-5 py-20 sm:px-8">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="flex flex-col gap-5">
-            <BrandMark className="h-20 self-start" />
+            <BrandMark className="h-28 self-start sm:h-32" />
             <p className="max-w-sm text-sm leading-relaxed text-muted">
-              A lakeside eco-campus near Kurunegala, Sri Lanka.
+              {business.name} — a yoga retreat in Hikkaduwa, Sri Lanka.
             </p>
-            <a href="mailto:stay@lankayoga.lk" className="text-sm text-ink underline underline-offset-4">
-              stay@lankayoga.lk
-            </a>
+            <address className="flex max-w-sm flex-col gap-1.5 text-sm not-italic text-ink">
+              <span>{businessAddressLine}</span>
+              <a href={`tel:${business.telephone}`} className="underline underline-offset-4 hover:text-sage-700">
+                {business.telephoneDisplay}
+              </a>
+              <a href={`mailto:${business.email}`} className="underline underline-offset-4 hover:text-sage-700">
+                {business.email}
+              </a>
+            </address>
           </div>
 
           <div className="flex flex-col gap-5">
@@ -66,7 +67,7 @@ export function SiteFooter() {
         </div>
 
         <nav aria-label="Footer" className="flex flex-wrap gap-x-8 gap-y-3 border-t border-line pt-8">
-          {links.map((link) =>
+          {footerNav().map((link) =>
           <Link
             key={link.to}
             to={link.to}
@@ -78,7 +79,7 @@ export function SiteFooter() {
         </nav>
 
         <div className="flex flex-col gap-3 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
-          <p>© 2026 Lanka Yoga &amp; Ayurveda Resort</p>
+          <p>© 2026 {business.name}</p>
           <p className="flex items-center gap-2">
             <LeafIcon className="h-3.5 w-3.5 text-sage-500" />
             Solar powered

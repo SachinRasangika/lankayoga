@@ -1,0 +1,14 @@
+# A string used to distinguish different Supabase projects on the same host.
+project_id = "frrwohsdgpuulwwtgwjf"
+
+[api]
+enabled = true
+
+[db]
+major_version = 15
+
+[auth]
+enabled = true
+site_url = "http://127.0.0.1:5173"
+additional_redirect_urls = ["https://lankayogaayurveda.com", "https://lankayoga.vercel.app"]
+enable_signup = false

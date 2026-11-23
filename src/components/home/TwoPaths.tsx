@@ -3,31 +3,17 @@ import { Link } from 'react-router-dom';
 import { ArrowRightIcon } from 'lucide-react';
 import { Section } from '../layout/Section';
 import { SectionIntro } from '../layout/SectionIntro';
-import { media } from '../../data/media';
-
-const paths = [
-{
-  to: '/teacher-training',
-  label: 'Learn to teach',
-  line: '200 hours. One residency. Sixteen people.',
-  image: media.yttPractice,
-  alt: 'Students practising together in the open-air shala'
-},
-{
-  to: '/ayurveda',
-  label: 'Come to heal',
-  line: 'Doctor-led Panchakarma, written to your pulse.',
-  image: media.therapyRoom,
-  alt: 'A traditional Ayurvedic treatment room in warm light'
-}];
-
+import { EditableSection } from '../../admin/customize/EditableSection';
+import { useSection } from '../../admin/customize/store';
 
 export function TwoPaths() {
+  const copy = useSection('home.paths');
   return (
+    <EditableSection id="home.paths">
     <Section tone="base">
-      <SectionIntro eyebrow="Two reasons people come" title="Learn, or be looked after" />
+      <SectionIntro eyebrow={copy.eyebrow} title={copy.title} />
       <div className="mt-14 grid gap-4 sm:gap-6 lg:grid-cols-2">
-        {paths.map((path) =>
+        {copy.items.map((path) =>
         <Link
           key={path.to}
           to={path.to}
@@ -52,6 +38,7 @@ export function TwoPaths() {
           </Link>
         )}
       </div>
-    </Section>);
+    </Section>
+    </EditableSection>);
 
 }

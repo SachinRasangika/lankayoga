@@ -1,16 +1,19 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { SoftImage } from '../motion/SoftImage';
-import { media } from '../../data/media';
+import { EditableSection } from '../../admin/customize/EditableSection';
+import { useSection } from '../../admin/customize/store';
 
 const ease = [0.23, 1, 0.32, 1] as const;
 
 export function Welcome() {
+  const copy = useSection('home.welcome');
   return (
+    <EditableSection id="home.welcome">
     <section className="bg-warm">
       <div className="mx-auto grid max-w-[1400px] items-center gap-14 px-5 py-24 sm:px-8 lg:grid-cols-12 lg:gap-16 lg:py-36">
         <div className="flex flex-col gap-6 lg:col-span-6 lg:pr-10">
-          <p className="eyebrow text-terracotta-600 dark:text-terracotta-300">Kurunegala, Sri Lanka</p>
+          <p className="eyebrow text-terracotta-600 dark:text-terracotta-300">{copy.eyebrow}</p>
           <motion.h2
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -18,16 +21,13 @@ export function Welcome() {
             transition={{ duration: 0.3, ease }}
             className="font-display text-[2.25rem] font-light leading-[1.1] tracking-tight text-ink sm:text-5xl">
             
-            A lake, nine acres, <span className="italic">and very little noise</span>
+            {copy.title} <span className="italic">{copy.titleEmphasis}</span>
           </motion.h2>
           <p className="max-w-md text-[0.9375rem] leading-relaxed text-muted">
-            Everything here is within a two-minute walk: the shala, the therapy rooms, the garden your food comes from.
+            {copy.body}
           </p>
           <dl className="mt-2 flex gap-10">
-            {[
-            { label: 'Guests at a time', value: '28' },
-            { label: 'Minutes from the shala', value: '2' }].
-            map((item) =>
+            {copy.stats.map((item) =>
             <div key={item.label} className="flex flex-col gap-1">
                 <dt className="sr-only">{item.label}</dt>
                 <dd className="font-display text-4xl font-light text-ink">{item.value}</dd>
@@ -38,20 +38,17 @@ export function Welcome() {
         </div>
 
         <div className="grid grid-cols-2 gap-4 lg:col-span-6 lg:gap-6">
-          <SoftImage
-            src={media.openWindow}
-            alt="A sheer linen curtain lifting in the breeze at an open shuttered window"
-            className="h-56 sm:h-80"
-            drift={8} />
-          
-          <SoftImage
-            src={media.floatingFlowers}
-            alt="Frangipani flowers floating in a dark stone water bowl"
-            className="mt-10 h-56 sm:h-80"
-            drift={5} />
-          
+          {copy.images.map((image, index) =>
+            <SoftImage
+              key={image.src || index}
+              src={image.src}
+              alt={image.alt}
+              className={index === 1 ? 'mt-10 h-56 sm:h-80' : 'h-56 sm:h-80'}
+              drift={index === 1 ? 5 : 8} />
+          )}
         </div>
       </div>
-    </section>);
+    </section>
+    </EditableSection>);
 
 }

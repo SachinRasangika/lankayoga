@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { parseISO } from 'date-fns';
 import { Program, ProgramKind, WellnessFocus } from '../types';
+import { comparePrograms } from '../utils/stays';
 
 export type FocusFilter = 'all' | WellnessFocus;
 export type DurationFilter = 'all' | 'short' | 'week' | 'long';
@@ -33,6 +34,7 @@ export function useProgramFilters(source: Program[], initial?: Partial<ProgramFi
   const months = useMemo(() => {
     const seen = new Map<string, string>();
     source.forEach((program) => {
+      if (program.openDates) return;
       const date = parseISO(program.startDate);
       const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
       seen.set(key, program.startDate);
@@ -50,9 +52,10 @@ export function useProgramFilters(source: Program[], initial?: Partial<ProgramFi
     filter((program) => matchesDuration(program.durationDays, filters.duration)).
     filter((program) => {
       if (filters.month === 'all') return true;
+      if (program.openDates) return true;
       return program.startDate.slice(0, 7) === filters.month;
     }).
-    sort((a, b) => a.startDate.localeCompare(b.startDate)),
+    sort(comparePrograms),
     [source, filters]
   );
 

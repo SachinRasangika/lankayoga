@@ -1,20 +1,19 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { CalendarSearchIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { ProgramFilters } from '../components/programs/ProgramFilters';
 import { ProgramCard } from '../components/programs/ProgramCard';
-import { ProgramDetailPanel } from '../components/programs/ProgramDetailPanel';
 import { Button } from '../components/ui/Button';
-import { programs } from '../data/programs';
+import { useContent } from '../admin/content';
 import { media } from '../data/media';
 import { DurationFilter, FocusFilter, KindFilter, useProgramFilters } from '../hooks/useProgramFilters';
 import { formatMonthLabel } from '../utils/format';
 import { Program } from '../types';
 
 export function Retreats() {
+  const { publishedPackages } = useContent();
   const [searchParams] = useSearchParams();
-  const [selected, setSelected] = useState<Program | null>(null);
 
   const initial = useMemo(
     () => ({
@@ -26,7 +25,7 @@ export function Retreats() {
     [searchParams]
   );
 
-  const { filters, update, reset, results, months, activeCount } = useProgramFilters(programs, initial);
+  const { filters, update, reset, results, months, activeCount } = useProgramFilters(publishedPackages, initial);
 
   const grouped = useMemo(() => {
     const map = new Map<string, Program[]>();
@@ -86,7 +85,7 @@ export function Retreats() {
                 </h2>
                 <div className="mt-5 border-t border-line">
                   {monthPrograms.map((program) =>
-              <ProgramCard key={program.id} program={program} onSelect={setSelected} />
+              <ProgramCard key={program.id} program={program} />
               )}
                 </div>
               </section>
@@ -94,8 +93,6 @@ export function Retreats() {
           </div>
         }
       </div>
-
-      <ProgramDetailPanel program={selected} onClose={() => setSelected(null)} />
     </>);
 
 }

@@ -59,6 +59,16 @@ export const media: { [K in keyof typeof mediaFiles]: string } = Object.fromEntr
   Object.entries(mediaFiles).map(([key, path]) => [key, asset(path)]),
 ) as { [K in keyof typeof mediaFiles]: string };
 
+function labelFromKey(key: string): string {
+  return key.replace(/([A-Z])/g, ' $1').replace(/^./, (letter) => letter.toUpperCase());
+}
+
+export const mediaLibrary = Object.entries(media).map(([key, src]) => ({
+  key,
+  src,
+  label: labelFromKey(key)
+}));
+
 export interface TourScene {
   id: string;
   name: string;

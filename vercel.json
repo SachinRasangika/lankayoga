@@ -1,0 +1,13 @@
+{
+  "cleanUrls": true,
+  "redirects": [
+    { "source": "/retreats", "destination": "/yoga", "permanent": true },
+    { "source": "/teacher-training", "destination": "/", "permanent": true },
+    { "source": "/campus", "destination": "/contact", "permanent": true }
+  ],
+  "rewrites": [
+    { "source": "/admin", "destination": "/" },
+    { "source": "/admin/:path*", "destination": "/" },
+    { "source": "/classes/book/:path*", "destination": "/" }
+  ]
+}

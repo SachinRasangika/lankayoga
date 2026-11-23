@@ -1,29 +1,27 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 import { ArrowRightIcon } from 'lucide-react';
 import { Program } from '../../types';
-import { formatDateRange, formatPrice } from '../../utils/format';
+import { formatPrice, formatStayDates } from '../../utils/format';
 import { durationLabel, focusLabels } from '../../utils/labels';
+import { stayPath } from '../../utils/stays';
 
 interface ProgramCardProps {
   program: Program;
-  onSelect: (program: Program) => void;
+  to?: string;
 }
 
-export function ProgramCard({ program, onSelect }: ProgramCardProps) {
+export function ProgramCard({ program, to }: ProgramCardProps) {
   return (
     <article className="group">
-      <button
-        type="button"
-        onClick={() => onSelect(program)}
+      <Link
+        to={to ?? stayPath(program)}
         className="grid w-full grid-cols-1 items-center gap-5 border-b border-line py-6 text-left transition-colors duration-200 ease-calm hover:border-sage-400 sm:grid-cols-[5.5rem_1fr_auto] sm:gap-7">
-        
         <div className="overflow-hidden rounded-2xl">
           <img
             src={program.image}
             alt=""
             loading="lazy"
             className="h-28 w-full object-cover transition-transform duration-[450ms] ease-calm group-hover:scale-[1.05] sm:h-20" />
-          
         </div>
 
         <div className="flex flex-col gap-1.5">
@@ -31,7 +29,7 @@ export function ProgramCard({ program, onSelect }: ProgramCardProps) {
             {program.title}
           </h3>
           <p className="text-sm text-muted">
-            {formatDateRange(program.startDate, program.endDate)} · {durationLabel(program.durationDays)} ·{' '}
+            {formatStayDates(program)} · {durationLabel(program.durationDays)} ·{' '}
             {focusLabels[program.focus]}
           </p>
         </div>
@@ -42,7 +40,7 @@ export function ProgramCard({ program, onSelect }: ProgramCardProps) {
             <ArrowRightIcon className="h-4 w-4" />
           </span>
         </div>
-      </button>
-    </article>);
-
+      </Link>
+    </article>
+  );
 }

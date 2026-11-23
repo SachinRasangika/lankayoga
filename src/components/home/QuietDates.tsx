@@ -1,30 +1,33 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { ProgramCard } from '../programs/ProgramCard';
 import { Section } from '../layout/Section';
 import { SectionIntro } from '../layout/SectionIntro';
 import { ButtonLink } from '../ui/Button';
-import { media } from '../../data/media';
-import { programs } from '../../data/programs';
+import { useContent } from '../../admin/content';
+import { EditableSection } from '../../admin/customize/EditableSection';
+import { useSection } from '../../admin/customize/store';
 
 export function QuietDates() {
-  const navigate = useNavigate();
+  const { publishedPackages } = useContent();
+  const copy = useSection('home.dates');
+  const upcoming = publishedPackages.slice(0, 3);
 
   return (
-    <Section tone="base" backdrop={media.palmCanopySky} backdropOpacity={0.12}>
+    <EditableSection id="home.dates">
+    <Section tone="base" backdrop={copy.image} backdropOpacity={0.12}>
       <div className="mx-auto max-w-3xl">
-        <SectionIntro eyebrow="Next dates" title="Small groups. They close early." />
+        <SectionIntro eyebrow={copy.eyebrow} title={copy.title} />
         <div className="mt-14 border-t border-line">
-          {programs.slice(0, 3).map((program) =>
-          <ProgramCard key={program.id} program={program} onSelect={() => navigate('/retreats')} />
+          {upcoming.map((program) =>
+          <ProgramCard key={program.id} program={program} />
           )}
         </div>
         <div className="mt-10 flex justify-center">
-          <ButtonLink to="/retreats" variant="secondary">
-            See every date
+          <ButtonLink to="/yoga" variant="secondary">
+            {copy.button}
           </ButtonLink>
         </div>
       </div>
-    </Section>);
+    </Section>
+    </EditableSection>);
 
 }

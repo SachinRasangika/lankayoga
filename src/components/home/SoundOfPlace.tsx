@@ -1,21 +1,17 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { media } from '../../data/media';
-
-const ambience = [
-{ id: 'water', label: 'Water against the jetty', time: 'All day', bars: [6, 14, 9, 18, 11] },
-{ id: 'birds', label: 'Kingfishers over the lake', time: 'Before six', bars: [10, 5, 16, 8, 13] },
-{ id: 'rain', label: 'Rain on banana leaves', time: 'Most afternoons', bars: [16, 12, 20, 14, 18] },
-{ id: 'bowl', label: 'One bowl, struck once', time: 'Dusk', bars: [20, 7, 4, 3, 2] }];
-
+import { EditableSection } from '../../admin/customize/EditableSection';
+import { useSection } from '../../admin/customize/store';
 
 export function SoundOfPlace() {
+  const copy = useSection('home.sound');
   const reduceMotion = useReducedMotion();
 
   return (
+    <EditableSection id="home.sound">
     <section className="relative isolate overflow-hidden bg-sand-900 text-sand-50">
       <img
-        src={media.waterRipple}
+        src={copy.image}
         alt=""
         className="absolute inset-0 h-full w-full object-cover opacity-40"
         loading="lazy" />
@@ -24,17 +20,17 @@ export function SoundOfPlace() {
 
       <div className="relative mx-auto grid max-w-[1400px] gap-14 px-5 py-24 sm:px-8 lg:grid-cols-12 lg:gap-16 lg:py-32">
         <div className="flex flex-col gap-5 lg:col-span-5">
-          <p className="eyebrow text-sand-300">What you will hear</p>
+          <p className="eyebrow text-sand-300">{copy.eyebrow}</p>
           <h2 className="font-display text-[2.25rem] font-light leading-[1.1] tracking-tight sm:text-5xl">
-            There is no music <span className="italic text-sand-200">anywhere on the campus</span>
+            {copy.title} <span className="italic text-sand-200">{copy.titleEmphasis}</span>
           </h2>
           <p className="max-w-sm text-[0.9375rem] leading-relaxed text-sand-100/80">
-            Only this, on a loop, for as long as you stay.
+            {copy.body}
           </p>
         </div>
 
         <ul className="flex flex-col lg:col-span-7">
-          {ambience.map((item, itemIndex) =>
+          {copy.items.map((item, itemIndex) =>
           <li
             key={item.id}
             className="flex items-center gap-6 border-t border-white/15 py-6 last:border-b last:border-white/15">
@@ -60,6 +56,7 @@ export function SoundOfPlace() {
           )}
         </ul>
       </div>
-    </section>);
+    </section>
+    </EditableSection>);
 
 }

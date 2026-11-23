@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { PauseIcon, PlayIcon } from 'lucide-react';
+import { EditableSection } from '../../admin/customize/EditableSection';
+import { useSection } from '../../admin/customize/store';
 
 type Phase = 'inhale' | 'hold' | 'exhale';
 
@@ -11,6 +13,7 @@ const sequence: {phase: Phase;label: string;seconds: number;scale: number;}[] = 
 
 
 export function BreathGuide() {
+  const copy = useSection('home.breath');
   const [running, setRunning] = useState(false);
   const [index, setIndex] = useState(0);
   const [rounds, setRounds] = useState(0);
@@ -33,15 +36,16 @@ export function BreathGuide() {
   const scale = running ? step.scale : 0.78;
 
   return (
+    <EditableSection id="home.breath">
     <section className="relative isolate overflow-hidden bg-sage-900 text-sand-50">
       <div className="mx-auto grid max-w-[1400px] items-center gap-14 px-5 py-24 sm:px-8 lg:grid-cols-2 lg:gap-20 lg:py-32">
         <div className="flex flex-col gap-6">
-          <p className="eyebrow text-sage-300">Before anything else</p>
+          <p className="eyebrow text-sage-300">{copy.eyebrow}</p>
           <h2 className="max-w-xl font-display text-[2.25rem] font-light leading-[1.08] tracking-tight sm:text-5xl">
-            Take one breath <span className="italic text-sand-200">with us</span>
+            {copy.title} <span className="italic text-sand-200">{copy.titleEmphasis}</span>
           </h2>
           <p className="max-w-xs text-[0.9375rem] leading-relaxed text-sage-200">
-            Four in. Four held. Six out. The same ratio we teach at 06:15.
+            {copy.body}
           </p>
           <div className="flex items-center gap-4">
             <button
@@ -50,10 +54,10 @@ export function BreathGuide() {
               className="inline-flex items-center gap-2 rounded-full bg-sand-50 px-6 py-3 text-sm font-medium text-sage-900 transition-[background-color,transform] duration-200 ease-calm hover:bg-white active:scale-[0.98]">
               
               {running ? <PauseIcon className="h-4 w-4" /> : <PlayIcon className="h-4 w-4" />}
-              {running ? 'Pause' : 'Breathe with us'}
+              {running ? 'Pause' : copy.button}
             </button>
             <p className="text-xs uppercase tracking-widest text-sage-400" aria-live="polite">
-              {rounds > 0 ? `${rounds} round${rounds === 1 ? '' : 's'} complete` : '4 · 4 · 6'}
+              {rounds > 0 ? `${rounds} round${rounds === 1 ? '' : 's'} complete` : copy.hint}
             </p>
           </div>
         </div>
@@ -83,6 +87,7 @@ export function BreathGuide() {
           </div>
         </div>
       </div>
-    </section>);
+    </section>
+    </EditableSection>);
 
 }
