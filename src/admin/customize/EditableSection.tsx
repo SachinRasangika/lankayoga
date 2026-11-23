@@ -26,8 +26,8 @@ export function EditableSection({
   return (
     <div className={hidden ? 'relative' : editing ? 'relative outline outline-[4px] -outline-offset-1 outline-terracotta-600' : 'relative outline outline-[3px] -outline-offset-1 outline-terracotta-500'}>
       <div className={hidden
-        ? 'flex min-h-14 flex-wrap items-center justify-between gap-3 border-y border-dashed border-sand-400 bg-sand-100 px-4 py-2 text-sand-800 sm:px-6'
-        : 'flex min-h-14 flex-wrap items-center justify-between gap-3 bg-terracotta-600 px-4 py-2 text-white shadow-md sm:px-6'}>
+        ? 'sticky top-[calc(var(--customize-bar,0px)+var(--customize-header,0px))] z-[70] flex min-h-14 flex-wrap items-center justify-between gap-3 border-y border-dashed border-sand-400 bg-sand-100 px-4 py-2 text-sand-800 sm:px-6'
+        : 'sticky top-[calc(var(--customize-bar,0px)+var(--customize-header,0px))] z-[70] flex min-h-14 flex-wrap items-center justify-between gap-3 bg-terracotta-600 px-4 py-2 text-white shadow-md sm:px-6'}>
         <p className="flex min-w-0 items-center gap-2 text-sm font-semibold sm:text-base">
           {hidden ? <EyeOffIcon className="h-4 w-4 shrink-0" /> : <PencilIcon className="h-4 w-4 shrink-0" />}
           <span className="truncate">{editing ? `Editing ${label}` : label}</span>

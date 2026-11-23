@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDownIcon, MenuIcon, XIcon } from 'lucide-react';
@@ -25,6 +25,7 @@ function linkClass(overImage: boolean, isActive: boolean) {
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -44,11 +45,33 @@ export function SiteHeader() {
   const customizing = useCustomizeMode();
   const overImage = isImmersivePath(pathname) && !scrolled && !open && !customizing;
 
+  useEffect(() => {
+    const root = document.documentElement;
+    if (!customizing) {
+      root.style.removeProperty('--customize-header');
+      return;
+    }
+    const element = headerRef.current;
+    if (!element) return;
+    const apply = () => root.style.setProperty('--customize-header', `${element.offsetHeight}px`);
+    apply();
+    const observer = new ResizeObserver(apply);
+    observer.observe(element);
+    return () => {
+      observer.disconnect();
+      root.style.removeProperty('--customize-header');
+    };
+  }, [customizing, open]);
+
   return (
-    <header className={cn(
-      'fixed inset-x-0 top-[calc(var(--customize-bar,0px)+var(--section-tool,0px))] z-50 px-3 transition-[padding] duration-300 ease-calm sm:px-6',
-      scrolled ? 'pt-2' : 'pt-3 sm:pt-5'
-    )}>
+    <header
+      ref={headerRef}
+      className={cn(
+        customizing ?
+          'sticky top-[var(--customize-bar,0px)] z-40 bg-surface/95 px-3 py-2 backdrop-blur sm:px-6' :
+          'fixed inset-x-0 top-[calc(var(--customize-bar,0px)+var(--section-tool,0px))] z-50 px-3 transition-[padding] duration-300 ease-calm sm:px-6',
+        !customizing && (scrolled ? 'pt-2' : 'pt-3 sm:pt-5')
+      )}>
       <nav
         aria-label="Primary"
         className={cn(
@@ -62,7 +85,7 @@ export function SiteHeader() {
             onImage={overImage}
             className={cn(
               'transition-[height] duration-300 ease-calm',
-              scrolled ? 'h-16 sm:h-20' : 'h-24 sm:h-28 lg:h-32'
+              customizing || scrolled ? 'h-16 sm:h-20' : 'h-24 sm:h-28 lg:h-32'
             )} />
         </Link>
 
